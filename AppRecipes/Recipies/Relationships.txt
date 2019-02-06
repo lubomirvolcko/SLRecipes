@@ -1,0 +1,9 @@
+login login:ceslas, password secret
+logout login, token
+getmessages
+{"login" token}
+send message
+login token, user, message
+
+
+itsovy.sk:1201/sendmessage
