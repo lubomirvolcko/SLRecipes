@@ -123,4 +123,12 @@ router.get("/ing/:ingredients", (req, res) => {
     });
 });
 
+//get all categories
+router.get("/cat", (req, res) => {
+    const qryStr = "select category from meal group by category asc"
+    connection.query(qryStr, (err, rows, fields) => {
+        res.status(200).json(rows);
+    });
+});
+
 module.exports = router;
