@@ -28,6 +28,6 @@ app.use("/user", userRouter);
 app.use("/meal", mealRouter);
 
 //localhost:3003
-app.listen(3003, () => {
-    console.log("Server is up and listening on 3003...");
+app.listen(1204, () => {
+    console.log("Server is up and listening on 1204...");
 });

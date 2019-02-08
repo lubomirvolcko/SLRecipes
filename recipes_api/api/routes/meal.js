@@ -2,10 +2,21 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'recipes2'
+   host: 'remotemysql.com',
+   user: 'h0QlUFTV95',
+   password: 'ezzVcs5uu6',
+   database: 'h0QlUFTV95'
+   /*
+   host: '194.160.229.181',
+   user: 'sladmin',
+   password: 'slpass',
+   database: 'sl_recipes'
+   
+   host: 'localhost',
+   user: 'root',
+   password: '',
+   database: 'recipes2'
+   */
 });
 
 
