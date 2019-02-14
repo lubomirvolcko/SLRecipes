@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_profile"
+              android:title="Profile"
+              android:icon="@drawable/ic_profile"/>
+
+        <item android:id="@+id/nav_favorites"
+              android:title="Favorites"
+              android:icon="@drawable/ic_favotites"/>
+
+        <item android:id="@+id/nav_topRated"
+              android:title="Top Rated"
+              android:icon="@drawable/ic_toprated"/>
+
+        <item android:id="@+id/nav_newest"
+              android:title="Newest"
+              android:icon="@drawable/ic_newest"/>
+
+        <item android:id="@+id/nav_categories"
+              android:title="Categories"
+              android:icon="@drawable/ic_categories"/>
+
+        <item android:id="@+id/nav_aboutUs"
+              android:title="About us"
+              android:icon="@drawable/ic_aboutus"/>
+    </group>
+</menu>

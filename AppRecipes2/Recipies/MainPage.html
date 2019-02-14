@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="myApp">
+  <head>
+    <title>Recipies</title>
+    <link href="content\css\style.css" rel="stylesheet" type="text/css" />
+    <script src="app\lib\angular.min.js"> </script>
+    <script src="app\lib\angular-route.min.js"> </script>
+    <script src="app\app.js"> </script>
+  </head>
+  <body>
+<header ng-include="'header.html'"> </header>
+            <div class="content">
+              <div ng-controller="PagesController">
+                <button ng-click="order = 'name'">order by Name: </button>
+                <input type="text" ng-model="search"/>
+
+
+              <ul>
+                <li ng-repeat="recipe in recipies | orderBy: order | filter: search">
+    <h3>{{recipe.name}} - {{recipe.stars}}* </h3>
+
+                </li>
+              </ul>
+            </div>
+          </div>
+
+  </body>
+</html>
