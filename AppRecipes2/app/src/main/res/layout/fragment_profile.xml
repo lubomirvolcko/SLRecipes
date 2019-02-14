@@ -2,7 +2,9 @@
 <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
 <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -19,6 +21,118 @@
             android:layout_height="50dp"
             android:background="@android:color/black"/>
 
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/nav_font"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:srcCompat="@drawable/profile_pic"
+                android:id="@+id/profileImage"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentLeft="true"/>
+
+        <TextView
+                android:id="@+id/txtProfileUsername"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:layout_marginLeft="28dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/opensans_italic"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/profileImage"
+                android:layout_toRightOf="@+id/profileImage"
+                android:layout_marginStart="20dp"/>
+
+        <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@color/nav_font"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="end"
+                android:layout_marginEnd="0dp" android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true" android:layout_marginRight="0dp">
+
+            <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/profile_set"
+                    android:id="@+id/profileSettings"
+            />
+
+
+            <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/profile_logout"
+                    android:id="@+id/profileLogOut"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="3dp"
+            />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <include
+            layout="@layout/category_view_black"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+
+    <include
+            layout="@layout/category_view_red"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/nav_font"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"/>
+
+        <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Latest viewed"
+                android:textSize="16sp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/opensans_italic"
+                android:layout_gravity="left"
+                android:layout_marginStart="20dp"/>
+
+    </LinearLayout>
+
+    <include
+            layout="@layout/recipe_view"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"/>
+    <include
+            layout="@layout/recipe_view"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"/>
     <include
             layout="@layout/recipe_view"
             android:layout_width="match_parent"

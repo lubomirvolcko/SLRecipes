@@ -12,17 +12,59 @@
             tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp"
             tools:ignore="MissingConstraints"
-            android:background="#d2e4d2">
+            android:background="@drawable/aboutus_bg">
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@android:color/black"/>
 
-    <include
-            layout="@layout/recipe_view"
+    <TextView
             android:layout_width="match_parent"
-            android:layout_height="175dp"/>
+            android:layout_height="wrap_content"
+            android:text="Curabitur finibus est sit amet ipsum convallis, sit amet porttitor velit venenatis. Morbi in neque lorem. Nulla vel lobortis massa. Aliquam erat volutpat. In pellentesque diam eget lectus fermentum, eu dictum dolor lacinia. In hac habitasse platea dictumst. Integer ex enim, sagittis tempus tellus ut, dignissim egestas lorem. Suspendisse nec augue a tortor tristique sodales.
+
+Mauris ullamcorper vitae diam eu fringilla. Nullam ut tincidunt sapien. Aenean commodo purus lacus, in pharetra dolor rutrum vitae. Suspendisse fermentum porttitor velit, egestas fringilla dui suscipit ut. Integer maximus magna felis, at scelerisque risus egestas vitae. Quisque consequat, est a ultrices ullamcorper, orci risus dapibus mauris, eu tincidunt tellus lacus in est. Maecenas eu congue sem. Integer at lorem convallis, consectetur orci eu, gravida quam. Sed diam nibh, facilisis vitae elit in, laoreet faucibus metus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin condimentum ac nisl eget sagittis. Phasellus quam enim, commodo ac ante sed, maximus consequat velit. Sed vitae mauris quis ex tristique viverra in vel dui. Fusce ornare enim eget finibus imperdiet. Aenean eget nulla aliquet, varius eros quis, lacinia arcu. Donec arcu ex, lobortis quis pellentesque vel, suscipit at ex."
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/nav_font"
+            android:padding="20dp"
+            android:fontFamily="@font/opensans_semibolditalic"
+    />
+
+    <Button
+            android:id="@+id/btnTerms"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="Terms of Use"
+            android:gravity="center"
+            android:layout_margin="0dp"
+            android:background="#A63F27"
+            android:textColor="@color/nav_font"
+            android:fontFamily="@font/opensans_bold"/>
+
+    <Button
+            android:id="@+id/btnPrivacy"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="Privacy Notice"
+            android:gravity="center"
+            android:layout_margin="0dp"
+            android:background="#C1472B"
+            android:textColor="@color/nav_font"
+            android:fontFamily="@font/opensans_bold"/>
+
+    <Button
+            android:id="@+id/btnCopyright"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="Copyright Policy"
+            android:gravity="center"
+            android:layout_margin="0dp"
+            android:background="#D14F31"
+            android:textColor="@color/nav_font"
+            android:fontFamily="@font/opensans_bold"/>
 
 </LinearLayout>
 </ScrollView>
