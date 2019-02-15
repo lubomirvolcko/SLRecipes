@@ -21,13 +21,14 @@ app.use(bodyParser.json());
 
 app.get("/", (req, res, next) => {
     console.log("Responding to root route");
-    res.send("Hello from ROOOT");
+    res.send("Server is running");
 });
 
 app.use("/user", userRouter);
 app.use("/meal", mealRouter);
 
-//localhost:3003
-app.listen(1204, () => {
-    console.log("Server is up and listening on 1204...");
+const PORT = process.env.PORT || 3003
+//localhost:PORT
+app.listen(PORT, () => {
+    console.log("Server is up and listening on : " + PORT);
 });

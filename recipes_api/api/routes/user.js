@@ -51,11 +51,11 @@ router.get("/:id", (req, res) => {
 });
 
 //login user
-router.post("/login", (req, res) => {
-    var username = req.body.username;
-    var pass = req.body.pass;
+router.get("/login/:username/:pass", (req, res) => {
+    var username = req.params.username;
+    var pass = req.params.pass;
     const qryStr = "select * from user where username like ? and password like ?";
-    connection.query(qryStr, [username, pass], (err, results, fields) => {
+    connection.query(qryStr, [username, pass], (err, rows, fields) => {
         if(err) {
             console.log("Login failed: " + err);
             res.sendStatus(500);
@@ -63,9 +63,42 @@ router.post("/login", (req, res) => {
             return
         }
 
-        res.status(200, "OK");
-        res.send("Login successful");
-        res.end();
+        var idUser = rows.map((x) => x.id);
+        if(idUser=="")
+            var message = {
+                message:"Invalid username or password",
+                userData:{
+                    idUser: JSON.stringify(rows.map((x) => x.id)).replace('[', '').replace(']',''),
+                    username: JSON.stringify(rows.map((x) => x.username)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+                    pass: JSON.stringify(rows.map((x) => x.password)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+                    email: JSON.stringify(rows.map((x) => x.email)).replace('[', '').replace(']','').replace('\"','').replace('\"','')
+                }
+            };
+            //var message = "Invalid username or password";
+        else
+            var message = {
+                message:"Login successful",
+                userData:[{
+                    idUser: JSON.stringify(rows.map((x) => x.id)).replace('[', '').replace(']',''),
+                    username: JSON.stringify(rows.map((x) => x.username)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+                    pass: JSON.stringify(rows.map((x) => x.password)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+                    email: JSON.stringify(rows.map((x) => x.email)).replace('[', '').replace(']','').replace('\"','').replace('\"','')
+                }]
+            };
+            //var message = "Login successful";
+        
+        /*
+        var userData = {
+            idUser: JSON.stringify(rows.map((x) => x.id)).replace('[', '').replace(']',''),
+            username: JSON.stringify(rows.map((x) => x.username)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+            pass: JSON.stringify(rows.map((x) => x.password)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+            email: JSON.stringify(rows.map((x) => x.email)).replace('[', '').replace(']','').replace('\"','').replace('\"','')
+        };
+        */
+        var jsonRes = [message]
+        //var jsonRes = {message, userData}
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(message));
     });
 });
 
