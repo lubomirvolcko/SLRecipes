@@ -18,12 +18,23 @@ import android.view.ViewGroup
 import android.widget.*
 import android.widget.ListAdapter
 import com.example.volcko.apprecipes2.*
+import com.example.volcko.apprecipes2.activities.Log_activity
+import com.example.volcko.apprecipes2.activities.MainActivity
 import org.json.JSONException
 import org.json.JSONObject
 
 class fragmentSearch: Fragment(){
     val TAG = "FragmentSearch"
     //val context: Context = this
+    private var fav: Boolean = true
+
+    fun setFav(x: Boolean) {
+        this.fav = x
+    }
+
+    fun getFav(): Boolean {
+        return fav
+    }
 
     private lateinit var currentLayoutManagerType: LayoutManagerType
     private lateinit var recyclerView: RecyclerView
@@ -44,13 +55,11 @@ class fragmentSearch: Fragment(){
         initDataset()
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_search,
-            container, false).apply { tag = TAG}
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_search, container, false).apply { tag = TAG}
 
-        recyclerView = rootView.findViewById(R.id.rv)
+        /*
+        recyclerView = view.findViewById(R.id.rv)
 
         // LinearLayoutManager is used here, this will layout the elements in a similar fashion
         // to the way ListView would layout elements. The RecyclerView.LayoutManager defines how
@@ -78,8 +87,29 @@ class fragmentSearch: Fragment(){
             setRecyclerViewLayoutManager(LayoutManagerType.GRID_LAYOUT_MANAGER)
         }
         */
+        */
 
-        return rootView
+        val btnFav = view.findViewById<Button>(R.id.btnFav) // btn favorite in recipe view
+
+        //Favorite(context, view)
+
+        if (getFav()==false)
+            btnFav.visibility = View.INVISIBLE
+        else {
+            btnFav.setOnClickListener {
+                if (btnFav.tag.equals("noFav")){
+                    btnFav.setBackgroundResource(R.drawable.ic_fav)
+                    btnFav.tag = "fav"
+                    Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show()
+                } else {
+                    btnFav.setBackgroundResource(R.drawable.ic_fav_empty)
+                    btnFav.tag = "noFav"
+                    Toast.makeText(context, "Remove from Favorites", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

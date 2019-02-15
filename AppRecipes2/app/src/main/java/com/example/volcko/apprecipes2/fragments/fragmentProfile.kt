@@ -36,8 +36,7 @@ class fragmentProfile: Fragment(){
             var password: String = sp.getString("pass", "not found")
             var email: String = sp.getString("email", "not found")
 
-            var userData: User =
-                User(idUser, username, password, email)
+            var userData: User = User(idUser, username, password, email)
 
             return userData
 
@@ -76,6 +75,22 @@ class fragmentProfile: Fragment(){
             startActivity(activityIntent)
 
             Toast.makeText(context, "Log Out", Toast.LENGTH_SHORT).show()
+        }
+
+        val btnFav = view.findViewById<Button>(R.id.btnFav) // btn favorite in recipe view
+
+        //Favorite(context, view)
+
+        btnFav.setOnClickListener {
+            if (btnFav.tag.equals("noFav")){
+                btnFav.setBackgroundResource(R.drawable.ic_fav)
+                btnFav.tag = "fav"
+                Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show()
+            } else {
+                btnFav.setBackgroundResource(R.drawable.ic_fav_empty)
+                btnFav.tag = "noFav"
+                Toast.makeText(context, "Remove from Favorites", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return view

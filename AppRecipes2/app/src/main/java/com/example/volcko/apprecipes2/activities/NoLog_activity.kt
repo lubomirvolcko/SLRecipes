@@ -38,7 +38,6 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         setSupportActionBar(toolbar)
         context = this
         dialog = ProgressDialog(this)
-        txtToolbarMenu.visibility = View.INVISIBLE
 
         val btnLogin = findViewById<Button>(R.id.btnLogin) //btn login - entry page
         val loginView = findViewById<View>(R.id.login_view) // view login
@@ -71,6 +70,9 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val btnNavFilter = findViewById<Button>(R.id.btnNavFilter) //btn filter in nav bar
 
         val recipeName = findViewById<TextView>(R.id.recipe_name) //text view of recipe name
+
+
+        txtToolbarMenu.visibility = View.INVISIBLE
 
         // set visibility of view
         fun showHideView(view: View) {
@@ -288,13 +290,13 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         }
 
         btnNavSearch.setOnClickListener {
-            showFragmentSearch() // set fragment search to visible
-            closeKeyboard(btnNavSearch) // close keyboard
-
             if (txtToolbarSearch.visibility == View.INVISIBLE){
                 txtToolbarMenu.visibility = View.INVISIBLE
                 txtToolbarMenu.text = ""
                 txtToolbarSearch.visibility = View.VISIBLE
+            } else {
+                showFragmentSearch() // set fragment search to visible
+                closeKeyboard(btnNavSearch) // close keyboard
             }
         }
 
@@ -402,6 +404,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun showFragmentSearch() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentSearch()
+        fragment.setFav(false)
         transaction.replace(R.id.fragment_holder, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
@@ -411,6 +414,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun showFragmentTopRated() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentTopRated()
+        fragment.setFav(false)
         transaction.replace(R.id.fragment_holder, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
@@ -420,6 +424,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun showFragmentNewest() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentNewest()
+        fragment.setFav(false)
         transaction.replace(R.id.fragment_holder, fragment)
         transaction.addToBackStack(null)
         transaction.commit()

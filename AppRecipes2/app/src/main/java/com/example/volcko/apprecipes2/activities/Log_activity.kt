@@ -31,15 +31,12 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var mPrefs: SharedPreferences
     val PREFS_NAME: String = "SL_recipe_data"
 
-
-
     private var idUser: String = "num"
     private var userName: String = "uu"
     private var pass: String = "pp"
     private var email: String = "ee"
 
     // getter
-
     fun getIdUser(): String { return idUser }
 
     fun getUserName(): String { return userName }
@@ -49,7 +46,6 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun getEmail(): String { return email }
 
     // setters
-
     fun setIdUser(str: String) { this.idUser = str }
 
     fun setUserName(str: String) { this.userName = str }
@@ -57,26 +53,6 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun setPassword(str: String) { this.pass = str }
 
     fun setEmail(str: String) { this.email = str }
-
-
-    fun getPreferencesData(): User? {
-        val sp: SharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        if (sp.contains("idUser")) {
-            var idUser: String = sp.getString("idUser", "not found")
-            var username: String = sp.getString("username", "not found")
-            var password: String = sp.getString("pass", "not found")
-            var email: String = sp.getString("email", "not found")
-
-            var userData: User =
-                User(idUser, username, password, email)
-
-            return userData
-
-        } else {
-            return null
-        }
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +65,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog = ProgressDialog(this)
 
         if(intent.getStringExtra("idUser")==null){
-            var arr: Array<User?> = arrayOf(getPreferencesData())
+            var arr: Array<User?> = arrayOf(MainActivity().getPreferencesData())
             setIdUser(arr?.get(0)?.getId().toString())
             setUserName(arr?.get(0)?.getUsername().toString())
             setPassword(arr?.get(0)?.getPassword().toString())
@@ -133,6 +109,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val recipeName = findViewById<TextView>(R.id.recipe_name) //text view of recipe name
 
+
+
         btnByRecipes.setOnClickListener {
             btnByRecipes.setBackgroundResource(R.drawable.btn_bg)
             btnByIngredients.setBackgroundResource(R.drawable.no_active_btn_bg)
@@ -165,6 +143,14 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fun closeKeyboard(btn: Button) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(btn.getWindowToken(), 0)
+        }
+
+        // show keyboard
+        fun showKeyboard(view: EditText) {
+            if (view.requestFocus()){
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
 
         // set visibility of buttons
@@ -226,13 +212,15 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         btnNavSearch.setOnClickListener {
-            showFragmentSearch() // set fragment search to visible
-            closeKeyboard(btnNavSearch) // close keyboard
-
             if (txtToolbarSearch.visibility == View.INVISIBLE){
                 txtToolbarMenu.visibility = View.INVISIBLE
                 txtToolbarMenu.text = ""
                 txtToolbarSearch.visibility = View.VISIBLE
+                txtToolbarSearch.requestFocus()
+                showKeyboard(txtToolbarSearch)
+            } else {
+                showFragmentSearch() // set fragment search to visible
+                closeKeyboard(btnNavSearch) // close keyboard
             }
 
         }
@@ -242,7 +230,13 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (mainContent.visibility == View.INVISIBLE)
                 mainContent.visibility = View.VISIBLE
 
+            val transaction = manager.beginTransaction()
+            transaction.isEmpty
+            transaction.addToBackStack(null)
+            transaction.commit()
+
             fragment_holder.visibility = View.INVISIBLE
+            //fragment_holder.layoutParams.height = 0
             searchBar.visibility = View.INVISIBLE
             toolbar.setBackgroundColor(Color.parseColor("#00000000")) //set background color to dark
             onBackPressed()
@@ -279,9 +273,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             // set action on click item Profile in menu
             R.id.nav_profile -> {
-                if (mainContent.visibility == View.VISIBLE) {
+                if(fragment_holder.visibility == View.INVISIBLE)
+                    fragment_holder.visibility = View.VISIBLE
+                if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
-                }
                 showFragmentProfile() //set fragment profile to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -291,9 +286,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             // set action on click item Favorites in menu
             R.id.nav_favorites -> {
-                if (mainContent.visibility == View.VISIBLE) {
+                if(fragment_holder.visibility == View.INVISIBLE)
+                    fragment_holder.visibility = View.VISIBLE
+                if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
-                }
                 showFragmentFavorites() //set fragment favorites to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -303,10 +299,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             // set action on click item Top Rated in menu
             R.id.nav_topRated -> {
-
-                if (mainContent.visibility == View.VISIBLE) {
+                if(fragment_holder.visibility == View.INVISIBLE)
+                    fragment_holder.visibility = View.VISIBLE
+                if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
-                }
                 showFragmentTopRated() //set fragment top rated to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -322,9 +318,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             // set action on click item Newest in menu
             R.id.nav_newest -> {
-                if (mainContent.visibility == View.VISIBLE) {
+                if(fragment_holder.visibility == View.INVISIBLE)
+                    fragment_holder.visibility = View.VISIBLE
+                if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
-                }
                 showFragmentNewest() //set fragment newest to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -335,9 +332,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             // set action on click item Categories in menu
             R.id.nav_categories -> {
-                if (mainContent.visibility == View.VISIBLE) {
+                if(fragment_holder.visibility == View.INVISIBLE)
+                    fragment_holder.visibility = View.VISIBLE
+                if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
-                }
                 showFragmentCategories() //set fragment categories to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -348,9 +346,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             // set action on click item About Us in menu
             R.id.nav_aboutUs -> {
-                if (mainContent.visibility == View.VISIBLE) {
+                if(fragment_holder.visibility == View.INVISIBLE)
+                    fragment_holder.visibility = View.VISIBLE
+                if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
-                }
                 showFragmentAbutUs() //set fragment about us to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()

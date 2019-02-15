@@ -42,11 +42,17 @@
             android:numColumns="@color/colorAccent"/>
     -->
 
+    <include
+            layout="@layout/recipe_view"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"/>
+
+    <!--
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv"/>
-
+    -->
 
 
 </LinearLayout>

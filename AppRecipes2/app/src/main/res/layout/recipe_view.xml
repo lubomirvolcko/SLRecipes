@@ -30,6 +30,7 @@
 
         <Button
                 android:id="@+id/btnFav"
+                android:tag="noFav"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:gravity="center"
