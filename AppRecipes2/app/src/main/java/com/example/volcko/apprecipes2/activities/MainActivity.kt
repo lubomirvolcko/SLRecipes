@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         } else {
             var arr: Array<User?> = arrayOf(getPreferencesData())
-            //activityIntent = Intent(this, Log_activity::class.java)
-            activityIntent = Intent(this, NoLog_activity::class.java)
+            activityIntent = Intent(this, Log_activity::class.java)
+            //activityIntent = Intent(this, NoLog_activity::class.java)
             activityIntent.putExtra("userData", arr)
         }
 

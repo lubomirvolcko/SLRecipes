@@ -13,17 +13,39 @@ import android.R.id.edit
 import android.content.Intent
 import android.text.method.TextKeyListener.clear
 import android.content.SharedPreferences
+import android.widget.TextView
 import android.widget.Toast
 import com.example.volcko.apprecipes2.activities.Log_activity
 import com.example.volcko.apprecipes2.activities.NoLog_activity
+import com.example.volcko.apprecipes2.data.User
 
 
 class fragmentProfile: Fragment(){
 
     val TAG = "FragmentProfile"
     val PREFS_NAME: String = "SL_recipe_data"
+    private lateinit var mPrefs: SharedPreferences
 
     lateinit var activityIntent: Intent
+
+    fun getPreferencesData(): User? {
+        val sp: SharedPreferences = context!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (sp.contains("idUser")) {
+            var idUser: String = sp.getString("idUser", "not found")
+            var username: String = sp.getString("username", "not found")
+            var password: String = sp.getString("pass", "not found")
+            var email: String = sp.getString("email", "not found")
+
+            var userData: User =
+                User(idUser, username, password, email)
+
+            return userData
+
+        } else {
+            return null
+        }
+
+    }
 
     override fun onAttach(context: Context?) {
         Log.d(TAG, "onAttach")
@@ -40,6 +62,12 @@ class fragmentProfile: Fragment(){
         val view: View = inflater!!.inflate(R.layout.fragment_profile, container, false)
 
         val btnLogout = view.findViewById<Button>(R.id.profileLogOut)
+        val txtUserName = view.findViewById<TextView>(R.id.txtProfileUsername)
+
+
+        var arr: Array<User?> = arrayOf(getPreferencesData())
+        txtUserName.text = arr.get(0)?.getUsername()
+
         btnLogout.setOnClickListener {
             val settings = context?.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             settings?.edit()?.clear()?.commit()

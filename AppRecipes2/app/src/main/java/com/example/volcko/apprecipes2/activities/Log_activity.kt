@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.volcko.apprecipes2.R
 import com.example.volcko.apprecipes2.R.string.idUser
+import com.example.volcko.apprecipes2.data.User
 import com.example.volcko.fragmenty.*
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
@@ -29,6 +30,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var dialog : ProgressDialog
     private lateinit var mPrefs: SharedPreferences
     val PREFS_NAME: String = "SL_recipe_data"
+
 
 
     private var idUser: String = "num"
@@ -57,19 +59,48 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun setEmail(str: String) { this.email = str }
 
 
+    fun getPreferencesData(): User? {
+        val sp: SharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (sp.contains("idUser")) {
+            var idUser: String = sp.getString("idUser", "not found")
+            var username: String = sp.getString("username", "not found")
+            var password: String = sp.getString("pass", "not found")
+            var email: String = sp.getString("email", "not found")
+
+            var userData: User =
+                User(idUser, username, password, email)
+
+            return userData
+
+        } else {
+            return null
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_activity)
         setSupportActionBar(toolbar)
 
+        txtToolbarMenu.visibility = View.INVISIBLE
 
         context = this
         dialog = ProgressDialog(this)
 
-        setIdUser(intent.getStringExtra("idUser"))
-        setUserName(intent.getStringExtra("username"))
-        setPassword(intent.getStringExtra("pass"))
-        setEmail(intent.getStringExtra("email"))
+        if(intent.getStringExtra("idUser")==null){
+            var arr: Array<User?> = arrayOf(getPreferencesData())
+            setIdUser(arr?.get(0)?.getId().toString())
+            setUserName(arr?.get(0)?.getUsername().toString())
+            setPassword(arr?.get(0)?.getPassword().toString())
+            setEmail(arr?.get(0)?.getEmail().toString())
+        } else {
+            setIdUser(intent.getStringExtra("idUser"))
+            setUserName(intent.getStringExtra("username"))
+            setPassword(intent.getStringExtra("pass"))
+            setEmail(intent.getStringExtra("email"))
+        }
+
 
         Toast.makeText(this, getIdUser()+" | "+getUserName()+" | "+getPassword()+" | "+getEmail(), Toast.LENGTH_SHORT).show()
 
@@ -89,13 +120,28 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val searchBar = findViewById<View>(R.id.search_bar) // view search and filter
         val txtMainSearch = findViewById<EditText>(R.id.txtMainSearch) // edit text Search in entry page
         val txtToolbarSearch = findViewById<EditText>(R.id.txtToolbarSearch) // edit text Search in toolbar
+        val txtToolbarMenu = findViewById<TextView>(R.id.txtToolbarMenu) // text view in toolbar for fragment name
         val mainContent = findViewById<View>(R.id.content_main) //view content_main
         val menuLogo = findViewById<ImageView>(R.id.menu_logo) //image view logo in menu
+
 
         val btnNavSearch = findViewById<Button>(R.id.btnNavSearch) //btn search in nav bar
         val btnNavFilter = findViewById<Button>(R.id.btnNavFilter) //btn filter in nav bar
 
+        val btnByRecipes = findViewById<Button>(R.id.btnByRecipes) //btn by recipes in home page
+        val btnByIngredients = findViewById<Button>(R.id.btnByIngredients) //btn by ingredients in home page
+
         val recipeName = findViewById<TextView>(R.id.recipe_name) //text view of recipe name
+
+        btnByRecipes.setOnClickListener {
+            btnByRecipes.setBackgroundResource(R.drawable.btn_bg)
+            btnByIngredients.setBackgroundResource(R.drawable.no_active_btn_bg)
+        }
+
+        btnByIngredients.setOnClickListener {
+            btnByIngredients.setBackgroundResource(R.drawable.btn_bg)
+            btnByRecipes.setBackgroundResource(R.drawable.no_active_btn_bg)
+        }
 
         // set visibility of view
         fun showHideView(view: View) {
@@ -182,6 +228,13 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         btnNavSearch.setOnClickListener {
             showFragmentSearch() // set fragment search to visible
             closeKeyboard(btnNavSearch) // close keyboard
+
+            if (txtToolbarSearch.visibility == View.INVISIBLE){
+                txtToolbarMenu.visibility = View.INVISIBLE
+                txtToolbarMenu.text = ""
+                txtToolbarSearch.visibility = View.VISIBLE
+            }
+
         }
 
         // action on logo in menu
@@ -232,6 +285,9 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showFragmentProfile() //set fragment profile to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Profile"
             }
             // set action on click item Favorites in menu
             R.id.nav_favorites -> {
@@ -241,6 +297,9 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showFragmentFavorites() //set fragment favorites to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Favorites"
             }
             // set action on click item Top Rated in menu
             R.id.nav_topRated -> {
@@ -251,6 +310,9 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showFragmentTopRated() //set fragment top rated to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Top Rated"
 
                 //val intent = Intent(this, TopRated_activity::class.java)
                 // To pass any data to next activity
@@ -266,6 +328,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showFragmentNewest() //set fragment newest to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Newest"
+
             }
             // set action on click item Categories in menu
             R.id.nav_categories -> {
@@ -275,6 +341,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showFragmentCategories() //set fragment categories to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                //txtToolbarSearch.getLayoutParams().width = 0
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Categories"
             }
             // set action on click item About Us in menu
             R.id.nav_aboutUs -> {
@@ -284,6 +354,9 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 showFragmentAbutUs() //set fragment about us to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "About us"
             }
         }
 

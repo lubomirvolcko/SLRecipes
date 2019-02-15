@@ -11,6 +11,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -26,53 +27,10 @@ import kotlinx.android.synthetic.main.app_bar_log_activity.*
 
 class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    var userID: Int = 0
-
     lateinit var context: Context
     var manager = supportFragmentManager
 
-    private val URL_ROOT = "http://slrecipes.freevar.com/php/v1/index.php?op="
-    //private val URL_ROOT = "192.168.0.188/v1/index.php?op="
-    val URL_ADD_USER = URL_ROOT + "addUsers"
-    val URL_GET_USERS = URL_ROOT + "getUsers"
-    val URL_GET_RECIPES = URL_ROOT + "getRecipes"
-
-    var userData = mutableListOf<User>()
-    var recipeData = mutableListOf<Recipe>()
     var dialog : ProgressDialog? = null
-
-    lateinit var mRecipeListView : ListView
-    lateinit var mRecipe: MutableList<Recipe>
-
-
-    lateinit var activityIntent: Intent
-    private lateinit var message: String
-    private lateinit var idUser: String
-    private lateinit var userName: String
-    private lateinit var password: String
-    private lateinit var email: String
-
-    // getter
-    fun getMessage(): String { return message }
-
-    fun getIdUser(): String { return idUser }
-
-    fun getUserName(): String { return userName }
-
-    fun getPassword(): String { return password }
-
-    fun getEmail(): String { return email }
-
-    // setters
-    fun setMessage(str: String) { this.message = str }
-
-    fun setIdUser(str: String) { this.idUser = str }
-
-    fun setUserName(str: String) { this.idUser = str }
-
-    fun setPassword(str: String) { this.idUser = str }
-
-    fun setEmail(str: String) { this.idUser = str }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,14 +38,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         setSupportActionBar(toolbar)
         context = this
         dialog = ProgressDialog(this)
-
-
-
-        val noMatches = findViewById<TextView>(R.id.no_matches) //text no matches - fragment search
-
-        val fragSearch = fragment_search
-//        mRecipeListView.findViewById<ListView>(R.id.recipesView)
-        //       mRecipe = mutableListOf<Recipe>()
+        txtToolbarMenu.visibility = View.INVISIBLE
 
         val btnLogin = findViewById<Button>(R.id.btnLogin) //btn login - entry page
         val loginView = findViewById<View>(R.id.login_view) // view login
@@ -112,6 +63,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val searchBar = findViewById<View>(R.id.search_bar) // view search and filter
         val txtMainSearch = findViewById<EditText>(R.id.txtMainSearch) // edit text Search in entry page
         val txtToolbarSearch = findViewById<EditText>(R.id.txtToolbarSearch) // edit text Search in toolbar
+        val txtToolbarMenu = findViewById<TextView>(R.id.txtToolbarMenu) // text view in toolbar for fragment name
         val mainContent = findViewById<View>(R.id.content_main) //view content_main
         val menuLogo = findViewById<ImageView>(R.id.menu_logo) //image view logo in menu
 
@@ -195,6 +147,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             showHideView(loginView) //hide view login
             showHideButton(btnLogin) //set visible button login
             showHideButton(btnRegister) //set visible button register
+            logUsername.text.clear()
+            logPass.text.clear()
         }
 
         // action on button register in entry page
@@ -210,7 +164,15 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             showHideView(registerView) //hide view register
             showHideButton(btnLogin) //set visible button login
             showHideButton(btnRegister) //set visible button register
+            regUsername.text.clear()
+            regEmail.text.clear()
+            regPass1.text.clear()
+            regPass2.text.clear()
+            if (termsAndConditions.isChecked)
+                termsAndConditions.toggle()
         }
+
+
 
         btnLoginEnter.setOnClickListener {
             closeKeyboard()
@@ -223,6 +185,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }else{
                 val username: String = logUsername.text.toString()
                 val pass: String = logPass.text.toString()
+                UserLogin(this, username, pass).execute()
                 //val url = RequestUrl().getUrl()+RequestUrl().getUser()+RequestUrl().getLogin()
                 /*
                 val reg = AsyncTaskLog(this ,username, pass)
@@ -232,7 +195,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 */
                 //Log_Reg_Task(this, url, "log").execute()
 
-                UserLogin(this, username, pass).execute()
+
                 /*
                 val service = RetrofitClinetInstance.retrofitInstance?.create(GetUserService::class.java)
                 val call = service?.getLogin(username, pass)
@@ -276,38 +239,28 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         }
 
         btnRegEnter.setOnClickListener {
-            val regex = Regex(pattern = "^[a-z0-9.\\\\-_]{3,64}[@][a-z]{2,64}[.][a-z]{2,}\$")
+            val regex = Regex(pattern = "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+")
             val matched = regex.containsMatchIn(input = regEmail.text)
             closeKeyboard()
             if (regUsername.length()==0 || regEmail.length()==0 || regPass1.length()==0 || regPass2.length()==0){
                 Toast.makeText(this, "All fields must be filled in!", Toast.LENGTH_SHORT).show()
             }else if(regUsername.length()<5){
-                Toast.makeText(this, "Min size of Username is 5!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Min length of Username is 5!", Toast.LENGTH_SHORT).show()
+            }else if(regUsername.length()>15){
+                Toast.makeText(this, "Max length of Username is 15!", Toast.LENGTH_SHORT).show()
             }else if(regPass1.length()<5){
-                Toast.makeText(this, "Min size of password is 5!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Min length of password is 5!", Toast.LENGTH_SHORT).show()
             }else if(regEmail.length()<5){
-                Toast.makeText(this, "Min size of email is 5!", Toast.LENGTH_SHORT).show()
-            }/*else if(!regEmail.text.contains("@") || !regEmail.text.contains(".")){
-                Toast.makeText(this, "Not valid email!", Toast.LENGTH_SHORT).show()
-            }*/
-            else if(matched){
+                Toast.makeText(this, "Min length of email is 5!", Toast.LENGTH_SHORT).show()
+            }else if(!matched){
                 Toast.makeText(this, "Not valid email!", Toast.LENGTH_SHORT).show()
             }else{
-                val username: String = regUsername.text.toString()
                 val pass1: String = regPass1.text.toString()
                 val pass2: String = regPass2.text.toString()
-                val email: String = regEmail.text.toString()
-
-                //val reg = AsyncTaskReg(this ,username, pass1, email)
 
                 if (pass1 == pass2) {
-                    if (termsAndConditions.isChecked){
-                        /*
-                        if (reg.execute().equals(getString(R.string.no_internet))){
-                            Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show()
-                        }
-                        */
-                    }else{
+                    if (!termsAndConditions.isChecked){
                         Toast.makeText(this, "Have to accept Terms & conditions", Toast.LENGTH_SHORT).show()
                     }
 
@@ -317,6 +270,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                     Toast.makeText(this, "Passwords are not equals!", Toast.LENGTH_SHORT).show()
                 }
             }
+            //do staff
         }
 
         // action on button search in entry page
@@ -336,6 +290,12 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         btnNavSearch.setOnClickListener {
             showFragmentSearch() // set fragment search to visible
             closeKeyboard(btnNavSearch) // close keyboard
+
+            if (txtToolbarSearch.visibility == View.INVISIBLE){
+                txtToolbarMenu.visibility = View.INVISIBLE
+                txtToolbarMenu.text = ""
+                txtToolbarSearch.visibility = View.VISIBLE
+            }
         }
 
         // action on logo in menu
@@ -386,6 +346,9 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentTopRated() //set fragment top rated to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Top Rated"
 
                 //val intent = Intent(this, TopRated_activity::class.java)
                 // To pass any data to next activity
@@ -401,6 +364,9 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentNewest() //set fragment newest to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Newest"
             }
             // set action on click item Categories in menu
             R.id.nav_categories -> {
@@ -410,6 +376,9 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentCategories() //set fragment categories to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "Categories"
             }
             // set action on click item ABout Us in menu
             R.id.nav_aboutUs -> {
@@ -419,6 +388,9 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentAbutUs() //set fragment about us to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                txtToolbarSearch.visibility = View.INVISIBLE
+                txtToolbarMenu.visibility = View.VISIBLE
+                txtToolbarMenu.text = "About us"
             }
         }
 
