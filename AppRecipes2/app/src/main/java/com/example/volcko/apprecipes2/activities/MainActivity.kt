@@ -43,10 +43,9 @@ class MainActivity : AppCompatActivity() {
             var idUser: String = sp.getString("idUser", "not found")
             var username: String = sp.getString("username", "not found")
             var password: String = sp.getString("pass", "not found")
-            var email: String = sp.getString("eamil", "not found")
+            var email: String = sp.getString("email", "not found")
 
-            var userData: User =
-                User(idUser, username, password, email)
+            var userData: User = User(idUser, username, password, email)
 
             return userData
 

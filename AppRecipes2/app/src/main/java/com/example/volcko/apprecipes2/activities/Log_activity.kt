@@ -54,6 +54,23 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun setEmail(str: String) { this.email = str }
 
+    fun getPreferencesData(): User? {
+        val sp: SharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        if (sp.contains("idUser")) {
+            var idUser: String = sp.getString("idUser", "not found")
+            var username: String = sp.getString("username", "not found")
+            var password: String = sp.getString("pass", "not found")
+            var email: String = sp.getString("email", "not found")
+
+            var userData: User = User(idUser, username, password, email)
+
+            return userData
+
+        } else {
+            return null
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_activity)
@@ -65,7 +82,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog = ProgressDialog(this)
 
         if(intent.getStringExtra("idUser")==null){
-            var arr: Array<User?> = arrayOf(MainActivity().getPreferencesData())
+            var arr: Array<User?> = arrayOf(getPreferencesData())
             setIdUser(arr?.get(0)?.getId().toString())
             setUserName(arr?.get(0)?.getUsername().toString())
             setPassword(arr?.get(0)?.getPassword().toString())
