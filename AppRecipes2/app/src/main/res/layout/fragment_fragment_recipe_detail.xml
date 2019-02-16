@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:ignore="MissingConstraints"
+            android:background="#d2e4d2">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:color/black"/>
+
+        <include
+                layout="@layout/recipe_view_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:weightSum="2">
+
+            <Button
+                    android:id="@+id/btnIngredients_recipe_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="Ingredients"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/nav_font"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:background="#A63F27"/>
+
+            <Button
+                    android:id="@+id/btnInstructions_recipe_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="Instructions"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/nav_font"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:background="#A7A2A2"/>
+
+        </LinearLayout>
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+</ScrollView>

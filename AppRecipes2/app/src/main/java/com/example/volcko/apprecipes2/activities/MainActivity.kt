@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //val idUser: String? = getString(R.string.idUser)
         mPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
         if (getPreferencesData() == null) {

@@ -20,51 +20,61 @@
             android:background="@android:color/black"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_black"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_red"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_black"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_red"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_black"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_red"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_black"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_red"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_black"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
 
     <include
+            android:id="@+id/categoryView"
             layout="@layout/category_view_red"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>

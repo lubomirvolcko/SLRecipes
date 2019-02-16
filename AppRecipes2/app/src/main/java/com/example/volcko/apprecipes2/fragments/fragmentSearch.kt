@@ -169,13 +169,6 @@ class fragmentSearch: Fragment(){
 
     }
 
-    override fun onSaveInstanceState(savedInstanceState: Bundle) {
-
-        // Save currently selected layout manager.
-        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, currentLayoutManagerType)
-        super.onSaveInstanceState(savedInstanceState)
-    }
-
     private fun initDataset() {
         dataset = Array(DATASET_COUNT, {i -> "This is element # $i"})
     }

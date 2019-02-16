@@ -68,6 +68,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         val btnNavSearch = findViewById<Button>(R.id.btnNavSearch) //btn search in nav bar
         val btnNavFilter = findViewById<Button>(R.id.btnNavFilter) //btn filter in nav bar
+        btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+        btnNavFilter.isClickable = false
 
         val recipeName = findViewById<TextView>(R.id.recipe_name) //text view of recipe name
 
@@ -96,6 +98,14 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         fun closeKeyboard(btn: Button) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(btn.getWindowToken(), 0)
+        }
+
+        // show keyboard
+        fun showKeyboard(view: EditText) {
+            if (view.requestFocus()){
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
 
         // set visibility of buttons
@@ -282,6 +292,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             } else {
                 setNavBarSearch(toolbar) //set toolbar
                 showHideView(mainContent) //set main content to invisible
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
+                btnNavFilter.isClickable = true
                 showFragmentSearch() // set fragment search to visible
                 closeKeyboard(btnSearchMain) // close keyboard
                 Toast.makeText(this, txtMainSearch.text, Toast.LENGTH_SHORT).show()
@@ -294,10 +306,18 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 txtToolbarMenu.visibility = View.INVISIBLE
                 txtToolbarMenu.text = ""
                 txtToolbarSearch.visibility = View.VISIBLE
+                txtToolbarSearch.requestFocus()
+                showKeyboard(txtToolbarSearch)
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = true
             } else {
                 showFragmentSearch() // set fragment search to visible
                 closeKeyboard(btnNavSearch) // close keyboard
             }
+        }
+
+        btnNavFilter.setOnClickListener {
+            Toast.makeText(this, "SEARCH FILTER", Toast.LENGTH_SHORT).show()
         }
 
         // action on logo in menu
@@ -348,6 +368,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentTopRated() //set fragment top rated to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
                 txtToolbarMenu.text = "Top Rated"
@@ -366,6 +388,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentNewest() //set fragment newest to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
                 txtToolbarMenu.text = "Newest"
@@ -378,6 +402,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentCategories() //set fragment categories to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
                 txtToolbarMenu.text = "Categories"
@@ -390,6 +416,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 showFragmentAbutUs() //set fragment about us to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
                 txtToolbarMenu.text = "About us"

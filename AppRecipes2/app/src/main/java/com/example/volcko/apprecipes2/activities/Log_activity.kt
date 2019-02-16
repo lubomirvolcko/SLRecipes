@@ -1,5 +1,6 @@
 package com.example.volcko.apprecipes2.activities
 
+import android.app.PendingIntent.getActivity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,6 +10,7 @@ import android.net.NetworkInfo
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -16,13 +18,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.volcko.apprecipes2.R
-import com.example.volcko.apprecipes2.R.string.idUser
 import com.example.volcko.apprecipes2.data.User
 import com.example.volcko.fragmenty.*
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
 import kotlinx.android.synthetic.main.content_log_activity.*
 
+
+@Suppress("DEPRECATION")
 class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var context: Context
@@ -71,10 +74,12 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_activity)
         setSupportActionBar(toolbar)
+
 
         txtToolbarMenu.visibility = View.INVISIBLE
 
@@ -120,6 +125,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val btnNavSearch = findViewById<Button>(R.id.btnNavSearch) //btn search in nav bar
         val btnNavFilter = findViewById<Button>(R.id.btnNavFilter) //btn filter in nav bar
+        btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+        btnNavFilter.isClickable = false
 
         val btnByRecipes = findViewById<Button>(R.id.btnByRecipes) //btn by recipes in home page
         val btnByIngredients = findViewById<Button>(R.id.btnByIngredients) //btn by ingredients in home page
@@ -199,9 +206,12 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             this, drawer_layout, toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
+
         )
+        val keyboard = closeKeyboard()
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+
 
 
         nav_view.setNavigationItemSelectedListener(this)
@@ -215,9 +225,12 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var searchTxt = txtMainSearch.text
                 var url = jsonURL+searchTxt
 
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
+                btnNavFilter.isClickable = true
                 setNavBarSearch(toolbar) //set toolbar
                 showHideView(mainContent) //set main content to invisible
                 showFragmentSearch() // set fragment search to visible
+
 
 
                 //val gv = findViewById<GridView>(R.id.myGridView)
@@ -235,11 +248,16 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 txtToolbarSearch.visibility = View.VISIBLE
                 txtToolbarSearch.requestFocus()
                 showKeyboard(txtToolbarSearch)
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
+                btnNavFilter.isClickable = true
             } else {
                 showFragmentSearch() // set fragment search to visible
                 closeKeyboard(btnNavSearch) // close keyboard
             }
+        }
 
+        btnNavFilter.setOnClickListener {
+            Toast.makeText(this, "SEARCH FILTER", Toast.LENGTH_SHORT).show()
         }
 
         // action on logo in menu
@@ -284,6 +302,13 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         txtToolbarSearch.text = null  //set text in toolbar edit text
     }
 
+    /*
+    // close keyboard
+    fun closeKeyboard(dr: DrawerLayout) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(dr.getWindowToken(), 0)
+    }
+    */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val mainContent = findViewById<View>(R.id.content_main) //view content_main
@@ -294,6 +319,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     fragment_holder.visibility = View.VISIBLE
                 if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 showFragmentProfile() //set fragment profile to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -307,6 +334,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     fragment_holder.visibility = View.VISIBLE
                 if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 showFragmentFavorites() //set fragment favorites to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -320,6 +349,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     fragment_holder.visibility = View.VISIBLE
                 if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 showFragmentTopRated() //set fragment top rated to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -339,6 +370,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     fragment_holder.visibility = View.VISIBLE
                 if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 showFragmentNewest() //set fragment newest to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -353,6 +386,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     fragment_holder.visibility = View.VISIBLE
                 if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 showFragmentCategories() //set fragment categories to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -367,6 +402,8 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     fragment_holder.visibility = View.VISIBLE
                 if (mainContent.visibility == View.VISIBLE)
                     mainContent.visibility = View.INVISIBLE
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilter.isClickable = false
                 showFragmentAbutUs() //set fragment about us to visible
                 setNavBarSearch(toolbar)
                 setSearchedTextToNull()
@@ -376,7 +413,13 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
+
+
         drawer_layout.closeDrawer(GravityCompat.START)
+        /*
+        if(drawer_layout.isDrawerOpen(GravityCompat.START))
+            this.closeKeyboard(drawer_layout)
+        */
         return true
     }
 
