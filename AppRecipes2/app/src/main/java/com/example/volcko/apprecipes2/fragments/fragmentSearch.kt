@@ -20,6 +20,7 @@ import android.widget.ListAdapter
 import com.example.volcko.apprecipes2.*
 import com.example.volcko.apprecipes2.activities.Log_activity
 import com.example.volcko.apprecipes2.activities.MainActivity
+import com.example.volcko.apprecipes2.async.GetAllRecipes
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -58,6 +59,9 @@ class fragmentSearch: Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_search, container, false).apply { tag = TAG}
 
+        val rv = view.findViewById<RecyclerView>(R.id.recyclerView_main)
+
+        //GetAllRecipes(context, rv).execute()
         /*
         recyclerView = view.findViewById(R.id.rv)
 

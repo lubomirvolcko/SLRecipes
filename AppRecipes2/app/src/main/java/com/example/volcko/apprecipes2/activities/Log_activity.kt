@@ -14,15 +14,24 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.volcko.apprecipes2.R
+import com.example.volcko.apprecipes2.adapter.MainAdapter
+import com.example.volcko.apprecipes2.data.HomeFeed
 import com.example.volcko.apprecipes2.data.User
 import com.example.volcko.fragmenty.*
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
 import kotlinx.android.synthetic.main.content_log_activity.*
+import kotlinx.android.synthetic.main.fragment_search.*
+import okhttp3.*
+import java.io.IOException
+import android.support.v7.widget.LinearLayoutManager
+import com.example.volcko.apprecipes2.async.GetAllRecipes
 
 
 @Suppress("DEPRECATION")
@@ -99,9 +108,6 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setEmail(intent.getStringExtra("email"))
         }
 
-
-        Toast.makeText(this, getIdUser()+" | "+getUserName()+" | "+getPassword()+" | "+getEmail(), Toast.LENGTH_SHORT).show()
-
         mPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         var editor = mPrefs.edit()
         editor.putString("idUser", idUser)
@@ -130,6 +136,9 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val btnByRecipes = findViewById<Button>(R.id.btnByRecipes) //btn by recipes in home page
         val btnByIngredients = findViewById<Button>(R.id.btnByIngredients) //btn by ingredients in home page
+
+
+
 
         val recipeName = findViewById<TextView>(R.id.recipe_name) //text view of recipe name
 
@@ -229,7 +238,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 btnNavFilter.isClickable = true
                 setNavBarSearch(toolbar) //set toolbar
                 showHideView(mainContent) //set main content to invisible
+                //fetchJson()
                 showFragmentSearch() // set fragment search to visible
+
+                //GetAllRecipes(this, recyclerView_main).execute()
 
 
 
@@ -238,6 +250,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 closeKeyboard(btnSearchMain) // close keyboard
                 Toast.makeText(this, txtMainSearch.text, Toast.LENGTH_SHORT).show()
                 txtMainSearch.text = null
+
             }
         }
 
@@ -516,4 +529,38 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         noMAtches.visibility = View.VISIBLE
     }
 
+    fun fetchJson() {
+        println("Attempting to Fetch JSON")
+
+        val url = "https://safe-falls-78094.herokuapp.com/meal"
+
+        val request = Request.Builder().url(url).build()
+
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object: Callback {
+            override fun onResponse(call: Call, response: Response) {
+                val manager = LinearLayoutManager(context)
+                recyclerView_main.setLayoutManager(manager)
+                recyclerView_main.setHasFixedSize(true)
+
+
+                val body = response.body()?.string()
+                println(body)
+
+                val gson = GsonBuilder().create()
+
+                val homeFeed = gson.fromJson(body, HomeFeed::class.java)
+
+                val adapter = MainAdapter(homeFeed)
+
+                runOnUiThread {
+                    recyclerView_main.adapter = adapter
+                }
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                println("Failed to execute request")
+            }
+        })
+    }
 }

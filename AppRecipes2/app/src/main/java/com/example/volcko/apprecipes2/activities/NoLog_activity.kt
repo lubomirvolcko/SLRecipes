@@ -1,8 +1,11 @@
 package com.example.volcko.apprecipes2.activities
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -24,11 +27,16 @@ import com.example.volcko.fragmenty.*
 import com.example.volcko.testhttpcon.UserLogin
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
+import com.example.volcko.apprecipes2.R.mipmap.ic_launcher
+import com.example.volcko.apprecipes2.R.string.app_name
+
+
 
 class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var context: Context
     var manager = supportFragmentManager
+    val PREFS_NAME: String = "SL_recipe_data"
 
     var dialog : ProgressDialog? = null
 
@@ -70,9 +78,6 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val btnNavFilter = findViewById<Button>(R.id.btnNavFilter) //btn filter in nav bar
         btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
         btnNavFilter.isClickable = false
-
-        val recipeName = findViewById<TextView>(R.id.recipe_name) //text view of recipe name
-
 
         txtToolbarMenu.visibility = View.INVISIBLE
 
@@ -198,55 +203,6 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 val username: String = logUsername.text.toString()
                 val pass: String = logPass.text.toString()
                 UserLogin(this, username, pass).execute()
-                //val url = RequestUrl().getUrl()+RequestUrl().getUser()+RequestUrl().getLogin()
-                /*
-                val reg = AsyncTaskLog(this ,username, pass)
-                if (reg.execute().equals(getString(R.string.no_internet))){
-                    Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT).show()
-                }
-                */
-                //Log_Reg_Task(this, url, "log").execute()
-
-
-                /*
-                val service = RetrofitClinetInstance.retrofitInstance?.create(GetUserService::class.java)
-                val call = service?.getLogin(username, pass)
-                var status: Int = 0
-
-                call?.enqueue(object : Callback<UserInfo> {
-                    override fun onFailure(call: Call<UserInfo>, t: Throwable) {
-                        //Toast.makeText(c, "Err reading JSON", Toast.LENGTH_SHORT).show()
-                        status = 1
-                    }
-
-                    override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
-                        val body = response?.body()
-                        val usersList = body?.userData
-                        val msg = body?.message
-                        //var size = usersList?.size
-
-                        setMessage(msg.toString())
-                        setIdUser(usersList?.get(0)?.idUser.toString())
-                        setUserName(usersList?.get(0)?.username.toString())
-                        setPassword(usersList?.get(0)?.pass.toString())
-                        setEmail(usersList?.get(0)?.email.toString())
-                    }
-
-                })
-
-                if (getMessage().equals("Invalid username or password"))
-                    Toast.makeText(this, getMessage(), Toast.LENGTH_SHORT).show()
-                else {
-                    Toast.makeText(this, getMessage(), Toast.LENGTH_SHORT).show()
-
-                    activityIntent = Intent(this, Log_activity::class.java)
-                    activityIntent.putExtra("idUser", getIdUser())
-                    activityIntent.putExtra("username", getUserName())
-                    activityIntent.putExtra("pass", getPassword())
-                    activityIntent.putExtra("email", getEmail())
-                    startActivity(activityIntent)
-                }
-                */
             }
         }
 
@@ -306,10 +262,10 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 txtToolbarMenu.visibility = View.INVISIBLE
                 txtToolbarMenu.text = ""
                 txtToolbarSearch.visibility = View.VISIBLE
+                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
+                btnNavFilter.isClickable = true
                 txtToolbarSearch.requestFocus()
                 showKeyboard(txtToolbarSearch)
-                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
-                btnNavFilter.isClickable = true
             } else {
                 showFragmentSearch() // set fragment search to visible
                 closeKeyboard(btnNavSearch) // close keyboard
@@ -330,15 +286,27 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             onBackPressed()
         }
 
-
     } //bundle end
 
+    override fun finish() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.app_name)
+        builder.setIcon(R.mipmap.ic_launcher)
+        builder.setMessage("Do you want to exit?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id -> super.finish() }
+            .setNegativeButton("No") { dialog, id -> dialog.cancel() }
+        val alert = builder.create()
+        alert.show()
+    }
+
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+
+        if (drawer_layout.isDrawerOpen(GravityCompat.START))
             drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
+        else
             super.onBackPressed()
-        }
+
     }
 
     // set visibility of buttons in navbar

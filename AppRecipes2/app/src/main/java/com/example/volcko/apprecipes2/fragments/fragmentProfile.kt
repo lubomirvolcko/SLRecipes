@@ -72,6 +72,7 @@ class fragmentProfile: Fragment(){
             settings?.edit()?.clear()?.commit()
 
             activityIntent = Intent(context, NoLog_activity::class.java)
+            activityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(activityIntent)
 
             Toast.makeText(context, "Log Out", Toast.LENGTH_SHORT).show()
