@@ -38,6 +38,7 @@ class UserLogin (var c: Context, private var username: String, private var pass:
                 activityIntent.putExtra("username", usersList?.get(0)?.username.toString())
                 activityIntent.putExtra("pass", usersList?.get(0)?.pass.toString())
                 activityIntent.putExtra("email", usersList?.get(0)?.email.toString())
+                activityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 c.startActivity(activityIntent)
 
                 finish = true

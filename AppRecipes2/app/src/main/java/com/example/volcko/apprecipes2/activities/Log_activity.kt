@@ -1,5 +1,6 @@
 package com.example.volcko.apprecipes2.activities
 
+import android.app.AlertDialog
 import android.app.PendingIntent.getActivity
 import android.app.ProgressDialog
 import android.content.Context
@@ -292,6 +293,18 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     } //bundle end
+
+    override fun finish() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.app_name)
+        builder.setIcon(R.mipmap.ic_launcher)
+        builder.setMessage("Do you want to exit?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id -> super.finish() }
+            .setNegativeButton("No") { dialog, id -> dialog.cancel() }
+        val alert = builder.create()
+        alert.show()
+    }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
