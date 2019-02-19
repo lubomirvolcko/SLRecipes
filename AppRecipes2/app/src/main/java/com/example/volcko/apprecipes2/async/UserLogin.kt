@@ -80,7 +80,7 @@ class UserLogin (var c: Context, private var username: String, private var pass:
 
         pd.dismiss()
         if (login == false){
-            Toast.makeText(c, "Login failed...invalid username or password!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(c, "Invalid username or password!", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(c, "Login successful", Toast.LENGTH_SHORT).show()
         }

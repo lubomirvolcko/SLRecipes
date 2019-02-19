@@ -3,9 +3,6 @@ package com.example.volcko.apprecipes2.activities
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -14,23 +11,16 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.volcko.apprecipes2.*
-import com.example.volcko.apprecipes2.R.layout.fragment_search
-import com.example.volcko.apprecipes2.data.Recipe
-import com.example.volcko.apprecipes2.data.User
 import com.example.volcko.fragmenty.*
 import com.example.volcko.testhttpcon.UserLogin
+import com.example.volcko.testhttpcon.UserRegistration
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
-import com.example.volcko.apprecipes2.R.mipmap.ic_launcher
-import com.example.volcko.apprecipes2.R.string.app_name
-
-
 
 class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,6 +29,27 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     val PREFS_NAME: String = "SL_recipe_data"
 
     var dialog : ProgressDialog? = null
+
+    private var regStatus: Boolean = false
+    private var regDone: Boolean = false
+
+    fun setRegStatus(x: Boolean) {
+        this.regStatus = x
+    }
+
+    fun setRegDone(x: Boolean) {
+        this.regDone = x
+    }
+
+    fun getRegStatus(): Boolean {
+        return this.regStatus
+    }
+
+    fun getRegDone(): Boolean {
+        return this.regStatus
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -189,8 +200,6 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 termsAndConditions.toggle()
         }
 
-
-
         btnLoginEnter.setOnClickListener {
             closeKeyboard()
             if (logUsername.length()==0 || logPass.length()==0){
@@ -200,9 +209,12 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }else if(logPass.length()<5){
                 Toast.makeText(this, "Min size of password is 5!", Toast.LENGTH_SHORT).show()
             }else{
-                val username: String = logUsername.text.toString()
-                val pass: String = logPass.text.toString()
-                UserLogin(this, username, pass).execute()
+                if (isNetworkAvailable(this)) {
+                    val username: String = logUsername.text.toString()
+                    val pass: String = logPass.text.toString()
+                    UserLogin(this, username, pass).execute()
+                } else
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -224,19 +236,40 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }else if(!matched){
                 Toast.makeText(this, "Not valid email!", Toast.LENGTH_SHORT).show()
             }else{
-                val pass1: String = regPass1.text.toString()
-                val pass2: String = regPass2.text.toString()
+                if (isNetworkAvailable(this)){
+                    val pass1: String = regPass1.text.toString()
+                    val pass2: String = regPass2.text.toString()
+                    val username = regUsername.text.toString()
+                    val email = regEmail.text.toString()
 
-                if (pass1 == pass2) {
-                    if (!termsAndConditions.isChecked){
-                        Toast.makeText(this, "Have to accept Terms & conditions", Toast.LENGTH_SHORT).show()
+                    if (pass1 == pass2) {
+                        if (!termsAndConditions.isChecked){
+                            Toast.makeText(this, "Have to accept Terms & conditions", Toast.LENGTH_SHORT).show()
+                        }
+
+                    } else {
+                        regPass1.text = null
+                        regPass2.text = null
+                        Toast.makeText(this, "Passwords are not equals!", Toast.LENGTH_SHORT).show()
                     }
 
-                } else {
-                    regPass1.text = null
-                    regPass2.text = null
-                    Toast.makeText(this, "Passwords are not equals!", Toast.LENGTH_SHORT).show()
-                }
+                    UserRegistration(this, username, pass1, email).execute()
+                    /*
+                    if (getRegStatus()){
+                        showHideView(registerView) //hide view register
+                        showHideButton(btnLogin) //set visible button login
+                        showHideButton(btnRegister) //set visible button register
+                        regUsername.text.clear()
+                        regEmail.text.clear()
+                        regPass1.text.clear()
+                        regPass2.text.clear()
+                        if (termsAndConditions.isChecked)
+                            termsAndConditions.toggle()
+                    }
+                    */
+                } else
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
+
             }
             //do staff
         }
@@ -246,14 +279,17 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             if (txtMainSearch.text.isEmpty()) {
                 Toast.makeText(this, "Have to write something!", Toast.LENGTH_SHORT).show()
             } else {
-                setNavBarSearch(toolbar) //set toolbar
-                showHideView(mainContent) //set main content to invisible
-                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
-                btnNavFilter.isClickable = true
-                showFragmentSearch() // set fragment search to visible
-                closeKeyboard(btnSearchMain) // close keyboard
-                Toast.makeText(this, txtMainSearch.text, Toast.LENGTH_SHORT).show()
-                txtMainSearch.text = null
+                if (isNetworkAvailable(this)) {
+                    setNavBarSearch(toolbar) //set toolbar
+                    showHideView(mainContent) //set main content to invisible
+                    btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
+                    btnNavFilter.isClickable = true
+                    showFragmentSearch() // set fragment search to visible
+                    closeKeyboard(btnSearchMain) // close keyboard
+                    Toast.makeText(this, txtMainSearch.text, Toast.LENGTH_SHORT).show()
+                    txtMainSearch.text = null
+                } else
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -267,8 +303,11 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 txtToolbarSearch.requestFocus()
                 showKeyboard(txtToolbarSearch)
             } else {
-                showFragmentSearch() // set fragment search to visible
-                closeKeyboard(btnNavSearch) // close keyboard
+                if (isNetworkAvailable(this)){
+                    showFragmentSearch() // set fragment search to visible
+                    closeKeyboard(btnNavSearch) // close keyboard
+                } else
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
         }
 

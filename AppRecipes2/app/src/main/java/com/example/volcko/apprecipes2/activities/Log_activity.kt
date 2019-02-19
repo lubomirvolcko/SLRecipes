@@ -1,7 +1,6 @@
 package com.example.volcko.apprecipes2.activities
 
 import android.app.AlertDialog
-import android.app.PendingIntent.getActivity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,11 +10,9 @@ import android.net.NetworkInfo
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -32,7 +29,6 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import okhttp3.*
 import java.io.IOException
 import android.support.v7.widget.LinearLayoutManager
-import com.example.volcko.apprecipes2.async.GetAllRecipes
 
 
 @Suppress("DEPRECATION")
@@ -84,12 +80,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_activity)
         setSupportActionBar(toolbar)
-
 
         txtToolbarMenu.visibility = View.INVISIBLE
 
@@ -117,10 +111,6 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         editor.putString("email", email)
         editor.apply()
 
-        // on log out:
-        //mPrefs.edit().clear().apply()
-
-
         val btnSearchMain = findViewById<Button>(R.id.btnMainSearch) //btn search in entry page
         val searchBar = findViewById<View>(R.id.search_bar) // view search and filter
         val txtMainSearch = findViewById<EditText>(R.id.txtMainSearch) // edit text Search in entry page
@@ -128,8 +118,6 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val txtToolbarMenu = findViewById<TextView>(R.id.txtToolbarMenu) // text view in toolbar for fragment name
         val mainContent = findViewById<View>(R.id.content_main) //view content_main
         val menuLogo = findViewById<ImageView>(R.id.menu_logo) //image view logo in menu
-
-
         val btnNavSearch = findViewById<Button>(R.id.btnNavSearch) //btn search in nav bar
         val btnNavFilter = findViewById<Button>(R.id.btnNavFilter) //btn filter in nav bar
         btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
@@ -137,13 +125,6 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val btnByRecipes = findViewById<Button>(R.id.btnByRecipes) //btn by recipes in home page
         val btnByIngredients = findViewById<Button>(R.id.btnByIngredients) //btn by ingredients in home page
-
-
-
-
-        val recipeName = findViewById<TextView>(R.id.recipe_name) //text view of recipe name
-
-
 
         btnByRecipes.setOnClickListener {
             btnByRecipes.setBackgroundResource(R.drawable.btn_bg)
@@ -231,27 +212,21 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (txtMainSearch.text.isEmpty()) {
                 Toast.makeText(this, "Have to write something!", Toast.LENGTH_SHORT).show()
             } else {
-                var jsonURL = "https://safe-falls-78094.herokuapp.com/meal/meal/"
-                var searchTxt = txtMainSearch.text
-                var url = jsonURL+searchTxt
+                if (isNetworkAvailable(this)){
+                    var jsonURL = "https://safe-falls-78094.herokuapp.com/meal/meal/"
+                    var searchTxt = txtMainSearch.text
+                    var url = jsonURL+searchTxt
 
-                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
-                btnNavFilter.isClickable = true
-                setNavBarSearch(toolbar) //set toolbar
-                showHideView(mainContent) //set main content to invisible
-                //fetchJson()
-                showFragmentSearch() // set fragment search to visible
-
-                //GetAllRecipes(this, recyclerView_main).execute()
-
-
-
-                //val gv = findViewById<GridView>(R.id.myGridView)
-                //JSONDownloader(this, url, gv).execute()
-                closeKeyboard(btnSearchMain) // close keyboard
-                Toast.makeText(this, txtMainSearch.text, Toast.LENGTH_SHORT).show()
-                txtMainSearch.text = null
-
+                    btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
+                    btnNavFilter.isClickable = true
+                    setNavBarSearch(toolbar) //set toolbar
+                    showHideView(mainContent) //set main content to invisible
+                    showFragmentSearch() // set fragment search to visible
+                    closeKeyboard(btnSearchMain) // close keyboard
+                    Toast.makeText(this, txtMainSearch.text, Toast.LENGTH_SHORT).show()
+                    txtMainSearch.text = null
+                } else
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -265,8 +240,12 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
                 btnNavFilter.isClickable = true
             } else {
-                showFragmentSearch() // set fragment search to visible
-                closeKeyboard(btnNavSearch) // close keyboard
+                if (isNetworkAvailable(this)){
+
+                    showFragmentSearch() // set fragment search to visible
+                    closeKeyboard(btnNavSearch) // close keyboard
+                } else
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -290,8 +269,6 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             toolbar.setBackgroundColor(Color.parseColor("#00000000")) //set background color to dark
             onBackPressed()
         }
-
-
     } //bundle end
 
     override fun finish() {
@@ -439,13 +416,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-
-
         drawer_layout.closeDrawer(GravityCompat.START)
-        /*
-        if(drawer_layout.isDrawerOpen(GravityCompat.START))
-            this.closeKeyboard(drawer_layout)
-        */
         return true
     }
 
