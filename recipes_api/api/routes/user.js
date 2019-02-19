@@ -85,18 +85,7 @@ router.get("/login/:username/:pass", (req, res) => {
                     email: JSON.stringify(rows.map((x) => x.email)).replace('[', '').replace(']','').replace('\"','').replace('\"','')
                 }]
             };
-            //var message = "Login successful";
-        
-        /*
-        var userData = {
-            idUser: JSON.stringify(rows.map((x) => x.id)).replace('[', '').replace(']',''),
-            username: JSON.stringify(rows.map((x) => x.username)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
-            pass: JSON.stringify(rows.map((x) => x.password)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
-            email: JSON.stringify(rows.map((x) => x.email)).replace('[', '').replace(']','').replace('\"','').replace('\"','')
-        };
-        */
-        var jsonRes = [message]
-        //var jsonRes = {message, userData}
+            
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(message));
     });
@@ -107,20 +96,82 @@ router.post("/add", (req, res) => {
     var username = req.body.username;
     var email = req.body.email;
     var pass = req.body.pass;
+    
+    const qryStrCheckUsername = "select * from user where username like ?"
+    const qryStrCheckEmail = "select * from user where email like ?"
     const qryStr = "insert into user (username, email, password) values(?, ?, ?)";
-    connection.query(qryStr, [username, email, pass], (err, results, fields) => {
+
+    connection.query(qryStrCheckUsername, username, (err, rows, fields) => {
         if(err) {
-            console.log("Failed to insert new user: " + err);
+            console.log("Registration failed username: " + err);
+            connection.end();
             res.sendStatus(500);
             res.send("Registration failed");
+            res.end();
             return
         }
 
-        res.status(200, "OK");
-        res.send("Registration successful");
-        res.end();
-    });
-});
+        if(!rows.length){
+            connection.query(qryStrCheckEmail, email, (err, rows, fields) => {
+                if(err) {
+                    console.log("Registration failed email: " + err);
+                    connection.end();
+                    res.sendStatus(500);
+                    res.send("Registration failed");
+                    res.end();
+                    return
+                }
+
+                if(!rows.length) {
+                    connection.query(qryStr, [username, email, pass], (err, results, fields) => {
+                        if(err) {
+                            console.log("Failed to insert new user: " + err);
+                            connection.end();
+                            res.sendStatus(500);
+                            res.send("Registration failed");
+                            return
+                        }
+                
+                        var userData = {
+                            username: "ok",
+                            pass: "ok",
+                            email: "ok"
+                        };
+                        
+                        connection.end();
+                        res.writeHead(200, {'Content-Type': 'application/json'});
+                        res.end(JSON.stringify(userData));
+                        res.end();
+                    });
+                } else {
+                    var userData = {
+                        username: "null",
+                        pass: "null",
+                        email: email
+                    };
+                    
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify(userData));
+                    
+                    
+                }
+
+            }); // check email
+        } else { // if checkusername is used
+            var userData = {
+                username: username,
+                pass: "null",
+                email: "null"
+            };
+           
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(userData));           
+        } 
+        
+    }); // check username
+    
+    
+}); // create user
 
 //update user
 router.post("/update", (req, res) => {
