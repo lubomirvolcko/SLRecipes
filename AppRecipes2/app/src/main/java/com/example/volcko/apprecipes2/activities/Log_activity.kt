@@ -105,10 +105,10 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mPrefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         var editor = mPrefs.edit()
-        editor.putString("idUser", idUser)
-        editor.putString("username", userName)
-        editor.putString("pass", pass)
-        editor.putString("email", email)
+        editor.putString("idUser", getIdUser())
+        editor.putString("username", getUserName())
+        editor.putString("pass", getPassword())
+        editor.putString("email", getEmail())
         editor.apply()
 
         val btnSearchMain = findViewById<Button>(R.id.btnMainSearch) //btn search in entry page
