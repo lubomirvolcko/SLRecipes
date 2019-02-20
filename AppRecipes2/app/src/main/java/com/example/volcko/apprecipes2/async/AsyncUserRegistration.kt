@@ -2,21 +2,18 @@ package com.example.volcko.testhttpcon
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.os.AsyncTask
 import android.widget.Toast
-import com.example.volcko.apprecipes2.GetUserService
+import com.example.volcko.apprecipes2.inteface.GetUserService
 import com.example.volcko.apprecipes2.RetrofitClinetInstance
-import com.example.volcko.apprecipes2.activities.Log_activity
 import com.example.volcko.apprecipes2.activities.NoLog_activity
-import com.example.volcko.apprecipes2.mapJson.UserInfo
 import com.example.volcko.apprecipes2.mapJson.UserRegJson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Suppress("DEPRECATION")
-class UserRegistration (var c: Context, private var username: String, private var pass: String, private var email: String) : AsyncTask<Void, Void, Boolean>(){
+class AsyncUserRegistration (var c: Context, private var username: String, private var pass: String, private var email: String) : AsyncTask<Void, Void, Boolean>(){
 
     private lateinit var pd: ProgressDialog
     var msq: String = "null"

@@ -17,14 +17,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.volcko.apprecipes2.*
 import com.example.volcko.fragmenty.*
-import com.example.volcko.testhttpcon.UserLogin
-import com.example.volcko.testhttpcon.UserRegistration
+import com.example.volcko.testhttpcon.AsyncUserLogin
+import com.example.volcko.testhttpcon.AsyncUserRegistration
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
 
 class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var context: Context
+    private lateinit var context: Context
     var manager = supportFragmentManager
     val PREFS_NAME: String = "SL_recipe_data"
 
@@ -49,14 +49,23 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         return this.regStatus
     }
 
+    fun setContext(x: Context) {
+        this.context = x
+    }
+
+    fun getContext(): Context {
+        return this.context
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_no_log_activity)
         setSupportActionBar(toolbar)
-        context = this
+        setContext(this)
         dialog = ProgressDialog(this)
+
+
 
         val btnLogin = findViewById<Button>(R.id.btnLogin) //btn login - entry page
         val loginView = findViewById<View>(R.id.login_view) // view login
@@ -212,7 +221,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 if (isNetworkAvailable(this)) {
                     val username: String = logUsername.text.toString()
                     val pass: String = logPass.text.toString()
-                    UserLogin(this, username, pass).execute()
+                    AsyncUserLogin(this, username, pass).execute()
                 } else
                     Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
@@ -253,7 +262,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                         Toast.makeText(this, "Passwords are not equals!", Toast.LENGTH_SHORT).show()
                     }
 
-                    UserRegistration(this, username, pass1, email).execute()
+                    AsyncUserRegistration(this, username, pass1, email).execute()
                     /*
                     if (getRegStatus()){
                         showHideView(registerView) //hide view register

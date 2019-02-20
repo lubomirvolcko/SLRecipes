@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.volcko.apprecipes2
+package com.example.volcko.apprecipes2.inteface
 
 import com.example.volcko.apprecipes2.mapJson.UserInfo
 import com.example.volcko.apprecipes2.mapJson.UserRegJson

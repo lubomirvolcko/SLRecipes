@@ -14,11 +14,18 @@
             tools:ignore="MissingConstraints"
             android:background="#d2e4d2">
 
+
     <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@android:color/black"/>
 
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <!--
     <include
             android:id="@+id/categoryView"
             layout="@layout/category_view_black"
@@ -78,5 +85,7 @@
             layout="@layout/category_view_red"
             android:layout_width="match_parent"
             android:layout_height="100dp"/>
+
+     -->
 </LinearLayout>
 </ScrollView>

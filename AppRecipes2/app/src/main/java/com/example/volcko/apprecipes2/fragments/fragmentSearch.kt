@@ -1,11 +1,8 @@
 package com.example.volcko.fragmenty
 
-import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -16,13 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.ListAdapter
 import com.example.volcko.apprecipes2.*
-import com.example.volcko.apprecipes2.activities.Log_activity
-import com.example.volcko.apprecipes2.activities.MainActivity
-import com.example.volcko.apprecipes2.async.GetAllRecipes
-import org.json.JSONException
-import org.json.JSONObject
 
 class fragmentSearch: Fragment(){
     val TAG = "FragmentSearch"
@@ -61,7 +52,7 @@ class fragmentSearch: Fragment(){
 
         val rv = view.findViewById<RecyclerView>(R.id.recyclerView_main)
 
-        //GetAllRecipes(context, rv).execute()
+        //AsyncGetAllRecipes(context, rv).execute()
         /*
         recyclerView = view.findViewById(R.id.rv)
 
