@@ -19,7 +19,7 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/top_background"
+            android:background="@drawable/top_background_2"
             android:orientation="vertical"
             android:gravity="center_vertical"
             android:id="@+id/content_main">

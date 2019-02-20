@@ -152,6 +152,11 @@
 
     </RelativeLayout>
 
+    <ListView
+            android:id="@+id/ingredientsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     
     
 

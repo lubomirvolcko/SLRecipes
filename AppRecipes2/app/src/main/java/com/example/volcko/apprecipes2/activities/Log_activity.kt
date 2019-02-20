@@ -163,7 +163,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // set visibility of buttons
         fun setNavBarSearch(toolbar: android.support.v7.widget.Toolbar) {
-            toolbar.setBackgroundColor(Color.parseColor("#D9000000")) //set background color to dark
+            toolbar.setBackgroundColor(Color.parseColor("#BF000000")) //set background color to dark
             showHideView(searchBar) //set visibility view searchBar
             val txtSearch = txtMainSearch.text
             txtToolbarSearch.text = txtSearch  //set text in toolbar edit text
@@ -286,7 +286,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // set visibility of buttons in navbar
     fun setNavBarSearch(toolbar: android.support.v7.widget.Toolbar) {
-        toolbar.setBackgroundColor(Color.parseColor("#D9000000")) //set background color to dark
+        toolbar.setBackgroundColor(Color.parseColor("#BF000000")) //set background color to dark
         val searchBar = findViewById<View>(R.id.search_bar) // view search and filter
         if (searchBar.visibility == View.INVISIBLE) {
             searchBar.visibility = View.VISIBLE

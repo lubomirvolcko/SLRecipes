@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import com.example.volcko.apprecipes2.R
-import com.example.volcko.apprecipes2.recipesAction.Favorite
 
 class fragmentFavorites: Fragment(){
     val TAG = "FragmentFavorites"
