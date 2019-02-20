@@ -3,15 +3,14 @@ package com.example.volcko.fragmenty
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import com.example.volcko.apprecipes2.R
-import com.example.volcko.apprecipes2.activities.Log_activity
-import com.example.volcko.apprecipes2.activities.MainActivity
+import com.example.volcko.testhttpcon.AsyncMealGetAll
 
 class fragmentTopRated: Fragment(){
     val TAG = "FragmentTopRated"
@@ -45,8 +44,11 @@ class fragmentTopRated: Fragment(){
         val recipeView = view.findViewById<View>(R.id.recipeView)
 
 
-        //Favorite(context, view)
+        val rv = view.findViewById<RecyclerView>(R.id.recyclerViewTopRated)
 
+        AsyncMealGetAll(context, rv, getFav()).execute()
+
+        /*
         if (getFav()==false)
             btnFav.visibility = View.INVISIBLE
         else {
@@ -62,6 +64,7 @@ class fragmentTopRated: Fragment(){
                 }
             }
         }
+        */
 
 
         return view

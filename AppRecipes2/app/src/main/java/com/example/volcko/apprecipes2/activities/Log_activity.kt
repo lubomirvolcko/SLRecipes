@@ -17,18 +17,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.volcko.apprecipes2.R
-import com.example.volcko.apprecipes2.adapter.MainAdapter
-import com.example.volcko.apprecipes2.data.HomeFeed
 import com.example.volcko.apprecipes2.data.User
 import com.example.volcko.fragmenty.*
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
 import kotlinx.android.synthetic.main.content_log_activity.*
-import kotlinx.android.synthetic.main.fragment_search.*
-import okhttp3.*
-import java.io.IOException
-import android.support.v7.widget.LinearLayoutManager
 
 
 @Suppress("DEPRECATION")
@@ -385,19 +378,22 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             // set action on click item Categories in menu
             R.id.nav_categories -> {
-                if(fragment_holder.visibility == View.INVISIBLE)
-                    fragment_holder.visibility = View.VISIBLE
-                if (mainContent.visibility == View.VISIBLE)
-                    mainContent.visibility = View.INVISIBLE
-                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
-                btnNavFilter.isClickable = false
-                showFragmentCategories() //set fragment categories to visible
-                setNavBarSearch(toolbar)
-                setSearchedTextToNull()
-                txtToolbarSearch.visibility = View.INVISIBLE
-                //txtToolbarSearch.getLayoutParams().width = 0
-                txtToolbarMenu.visibility = View.VISIBLE
-                txtToolbarMenu.text = "Categories"
+                if (isNetworkAvailable(context)){
+                    if(fragment_holder.visibility == View.INVISIBLE)
+                        fragment_holder.visibility = View.VISIBLE
+                    if (mainContent.visibility == View.VISIBLE)
+                        mainContent.visibility = View.INVISIBLE
+                    btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                    btnNavFilter.isClickable = false
+                    showFragmentCategories() //set fragment categories to visible
+                    setNavBarSearch(toolbar)
+                    setSearchedTextToNull()
+                    txtToolbarSearch.visibility = View.INVISIBLE
+                    //txtToolbarSearch.getLayoutParams().width = 0
+                    txtToolbarMenu.visibility = View.VISIBLE
+                    txtToolbarMenu.text = "Categories"
+                } else
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
             }
             // set action on click item About Us in menu
             R.id.nav_aboutUs -> {
@@ -511,40 +507,5 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun setSearchNoMatches(){
         val noMAtches = findViewById<TextView>(R.id.no_matches)
         noMAtches.visibility = View.VISIBLE
-    }
-
-    fun fetchJson() {
-        println("Attempting to Fetch JSON")
-
-        val url = "https://safe-falls-78094.herokuapp.com/meal"
-
-        val request = Request.Builder().url(url).build()
-
-        val client = OkHttpClient()
-        client.newCall(request).enqueue(object: Callback {
-            override fun onResponse(call: Call, response: Response) {
-                val manager = LinearLayoutManager(context)
-                recyclerView_main.setLayoutManager(manager)
-                recyclerView_main.setHasFixedSize(true)
-
-
-                val body = response.body()?.string()
-                println(body)
-
-                val gson = GsonBuilder().create()
-
-                val homeFeed = gson.fromJson(body, HomeFeed::class.java)
-
-                val adapter = MainAdapter(homeFeed)
-
-                runOnUiThread {
-                    recyclerView_main.adapter = adapter
-                }
-            }
-
-            override fun onFailure(call: Call, e: IOException) {
-                println("Failed to execute request")
-            }
-        })
     }
 }

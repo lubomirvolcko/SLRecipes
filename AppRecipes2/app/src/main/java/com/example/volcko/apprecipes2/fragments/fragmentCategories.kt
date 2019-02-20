@@ -42,19 +42,8 @@ class fragmentCategories: Fragment(){
         Log.d(TAG, "onCreateView")
         val view: View = inflater!!.inflate(R.layout.fragment_categories, container, false)
 
-        val categories = mutableListOf<Category>()
-        for (i in 0..10) {
-            categories.add(Category("Breakfast"))
-        }
         val rv = view.findViewById<RecyclerView>(R.id.recyclerView)
 
-
-        /*
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = CategoryAdapter(categories)
-        }
-        */
         AsyncMealCategories(context, rv).execute()
 
         return view

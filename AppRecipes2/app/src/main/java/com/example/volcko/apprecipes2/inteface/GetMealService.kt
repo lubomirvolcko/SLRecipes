@@ -3,6 +3,7 @@
 package com.example.volcko.apprecipes2.inteface
 
 import com.example.volcko.apprecipes2.mapJson.MealCategory
+import com.example.volcko.apprecipes2.mapJson.RecipesFeed
 import com.example.volcko.apprecipes2.mapJson.UserInfo
 import com.example.volcko.apprecipes2.mapJson.UserRegJson
 import retrofit2.Call
@@ -17,7 +18,7 @@ interface GetMealService {
     fun getAllCategories() : Call<MealCategory>
 
     @GET("meal")
-    fun getAllRecipes() : Call<MealCategory>
+    fun getAllRecipes() : Call<RecipesFeed>
 
 
     @GET("meal/category/{category}")
