@@ -26,7 +26,7 @@ class fragmentRecipeDetail: Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(TAG, "onCreateView")
-        val view: View = inflater!!.inflate(R.layout.fragment_fragment_recipe_detail, container, false)
+        val view: View = inflater!!.inflate(R.layout.fragment_recipe_detail, container, false)
 
         val btnFav = view.findViewById<Button>(R.id.btnFav) // btn favorite in recipe view
 

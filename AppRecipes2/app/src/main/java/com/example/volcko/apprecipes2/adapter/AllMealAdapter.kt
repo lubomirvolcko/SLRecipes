@@ -13,10 +13,11 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recipe_view.view.*
 
 class AllMealAdapter(
-    private val recipes: List<Recipes>,
-    val c: Context,
-    val fav: Boolean
+    //val recipes: List<Recipes>
+    //val c: Context
+    //val fav: Boolean
 ) : RecyclerView.Adapter<AllMealAdapter.ViewHolder>() {
+    private var recipes = ArrayList<Recipes>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recipe_view, parent, false)
@@ -43,9 +44,10 @@ class AllMealAdapter(
             .into(recipe_img)
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(c, holder.recipeName.text.toString(), Toast.LENGTH_SHORT).show()
+            //Toast.makeText(c, holder.recipeName.text.toString(), Toast.LENGTH_SHORT).show()
         }
 
+        /*
         if (fav){
             btnFav.setOnClickListener {
                 if (btnFav.tag.equals("noFav")){
@@ -60,9 +62,16 @@ class AllMealAdapter(
             }
         } else
             btnFav.visibility = View.INVISIBLE
+        */
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val recipeName: TextView = itemView.recipe_name
     }
+
+    fun setData(xy: ArrayList<Recipes>) {
+        recipes = xy
+        notifyDataSetChanged()
+    }
+
 }

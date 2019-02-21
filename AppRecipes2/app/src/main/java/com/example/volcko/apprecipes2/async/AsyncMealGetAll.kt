@@ -19,20 +19,32 @@ import retrofit2.Response
 @Suppress("DEPRECATION")
 class AsyncMealGetAll (
     var c: Context?,
-    var rv: RecyclerView,
-    var fav: Boolean
+    //var rv: RecyclerView,
+    var fav: Boolean,
+
+    val adapter: AllMealAdapter
 ) : AsyncTask<Void, Void, Boolean>(){
+    private lateinit var recipes: List<Recipes>
 
     private lateinit var pd: ProgressDialog
     lateinit var categories: List<MealCategory?>
 
+
+
     fun showData(recipes: List<Recipes>) {
-        rv.layoutManager = LinearLayoutManager(c)
+        //rv.layoutManager = LinearLayoutManager(c)
         val size: Int = recipes.size
+        /*
         for (i in 0..size-1) {
             println("DATA: " + recipes?.get(i).meal)
         }
-        rv.adapter = AllMealAdapter(recipes, c!!, fav)
+        */
+        //rv.adapter = AllMealAdapter(recipes, c!!, fav)
+        //rv.adapter = AllMealAdapter()
+        //rv.adapter = AllMealAdapter()
+        val arr = ArrayList<Recipes>()
+        arr.addAll(recipes)
+        adapter.setData(arr)
     }
 
     fun doCategories(): Boolean{
@@ -63,7 +75,15 @@ class AsyncMealGetAll (
 
 
                 */
-                showData(rec!!)
+                if (rec!=null) {
+                    recipes = rec!!
+
+                    showData(recipes)
+                } else
+                    Toast.makeText(c, "Failed to load Recipes", Toast.LENGTH_SHORT).show()
+
+                pd.dismiss()
+
                 finish = true
 
             }
@@ -76,10 +96,13 @@ class AsyncMealGetAll (
             }
         })
 
+        /*
         var x = 0
         do {
             x++
+            print("WAIT ON BACKGROUND: " + x)
         } while (finish == false)
+        */
 
         return status
     }
@@ -102,16 +125,8 @@ class AsyncMealGetAll (
     }
 
     // when background finishes, dismiss dialog
-    override fun onPostExecute(categories: Boolean) {
-        super.onPostExecute(categories)
-
-        pd.dismiss()
-        if (categories == false){
-            Toast.makeText(c, "Failed to load Categories", Toast.LENGTH_SHORT).show()
-        }
-
-
+    override fun onPostExecute(x: Boolean) {
+        super.onPostExecute(x)
     }
-
 
 }

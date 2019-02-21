@@ -3,6 +3,7 @@ package com.example.volcko.fragmenty
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,11 +11,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.volcko.apprecipes2.R
+import com.example.volcko.apprecipes2.adapter.AllMealAdapter
+import com.example.volcko.apprecipes2.mapJson.Recipes
 import com.example.volcko.testhttpcon.AsyncMealGetAll
+import java.util.*
 
 class fragmentTopRated: Fragment(){
     val TAG = "FragmentTopRated"
     private var fav: Boolean = true
+    private var recipes = ArrayList<Recipes>()
+    private lateinit var adapter: AllMealAdapter
+    /*
+    private val adapter = AllMealAdapter(Collections.emptyList()
+
 
     fun setFav(x: Boolean) {
         this.fav = x
@@ -23,7 +32,7 @@ class fragmentTopRated: Fragment(){
     fun getFav(): Boolean {
         return fav
     }
-
+    */
     override fun onAttach(context: Context?) {
         Log.d(TAG, "onAttach")
         super.onAttach(context)
@@ -46,7 +55,19 @@ class fragmentTopRated: Fragment(){
 
         val rv = view.findViewById<RecyclerView>(R.id.recyclerViewTopRated)
 
-        AsyncMealGetAll(context, rv, getFav()).execute()
+        rv.layoutManager = LinearLayoutManager(context)
+
+        adapter = AllMealAdapter()
+
+
+        rv.adapter = adapter
+
+        AsyncMealGetAll(context, true, adapter).execute()
+
+        //AsyncMealGetAll(context, rv, getFav()).execute()
+        //AsyncMealGetAll(context, rv, true, AllMealAdapter(recipes)).execute()
+
+
 
         /*
         if (getFav()==false)

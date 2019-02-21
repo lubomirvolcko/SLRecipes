@@ -35,7 +35,6 @@ class AsyncMealCategories (var c: Context?, var rv: RecyclerView) : AsyncTask<Vo
         val service = RetrofitClinetInstance.retrofitInstance?.create(GetMealService::class.java)
         val call = service?.getAllCategories()
         var status: Boolean = true
-        var finish: Boolean = false
 
         println("DO CATEGORIES")
         call?.enqueue(object : Callback<MealCategory> {
@@ -47,16 +46,20 @@ class AsyncMealCategories (var c: Context?, var rv: RecyclerView) : AsyncTask<Vo
                 //val size = allCategories?.size
                 categories = listOf(body)
 
-                println("RESPONSE: ")
-                val size: Int = body?.categories!!.size
-                for (i in 0..size-1) {
-                    println("DATA: " + body?.categories?.get(i)?.category)
-                }
+                if (body!=null) {
+                    println("RESPONSE: ")
+                    val size: Int = body?.categories!!.size
+                    for (i in 0..size-1) {
+                        println("DATA: " + body?.categories?.get(i)?.category)
+                    }
 
-                println("STATUS Response: " + status)
+                    println("STATUS Response: " + status)
 
-                showData(body.categories)
-                finish = true
+                    showData(body.categories)
+                } else
+                    Toast.makeText(c, "Failed to load Categories", Toast.LENGTH_SHORT).show()
+
+                pd.dismiss()
 
             }
 
@@ -64,19 +67,11 @@ class AsyncMealCategories (var c: Context?, var rv: RecyclerView) : AsyncTask<Vo
                 println("CATEGORIES FAIL")
                 status = false
                 println("STATUS Fail: "+ status)
-                finish = true
             }
         })
 
-        var x = 0
-        do {
-            x++
-        } while (finish == false)
-
         return status
     }
-
-
 
     // show dialog while downloading data
     override fun onPreExecute() {
@@ -96,14 +91,5 @@ class AsyncMealCategories (var c: Context?, var rv: RecyclerView) : AsyncTask<Vo
     // when background finishes, dismiss dialog
     override fun onPostExecute(categories: Boolean) {
         super.onPostExecute(categories)
-
-        pd.dismiss()
-        if (categories == false){
-            Toast.makeText(c, "Failed to load Categories", Toast.LENGTH_SHORT).show()
-        }
-
-
     }
-
-
 }
