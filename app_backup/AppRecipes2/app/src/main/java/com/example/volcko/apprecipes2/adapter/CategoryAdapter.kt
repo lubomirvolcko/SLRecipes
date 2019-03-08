@@ -47,6 +47,7 @@ class CategoryAdapter(val c: Context) : RecyclerView.Adapter<CategoryAdapter.Vie
             Toast.makeText(c, holder.categoryName.text.toString(), Toast.LENGTH_SHORT).show()
             val bundle: Bundle = Bundle()
             bundle.putString("category", holder.categoryName.text.toString())
+            bundle.putString("act", loadActivity)
             var transaction: FragmentTransaction
 
             if (loadActivity.equals("noLog"))
