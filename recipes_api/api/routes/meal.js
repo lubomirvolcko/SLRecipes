@@ -22,7 +22,7 @@ const connection = mysql.createConnection({
 
 //get all recipes
 router.get('/', (req, res, next) => {
-    const qryStr = "select * from meal"
+    const qryStr = "select id, meal, category, image, review from meal"
     connection.query(qryStr, (err, rows, fields) => {
         if(err) {
             console.log("Failed to query for users: " + err);
@@ -30,13 +30,51 @@ router.get('/', (req, res, next) => {
             res.send("Failed to get data");
             return
         }
-        /*
-        const users =  rows.map((row) => {
-            return {username: row.username};
-        });
+       var recipes = { recipes: rows}
+       res.status(200).json(recipes);
+    }); 
+});
 
-        res.status(200).json(users);
-        */
+//get all recipes
+router.get('/toprated', (req, res, next) => {
+    const qryStr = "select id, meal, category, image, review from meal where id <= 50"
+    connection.query(qryStr, (err, rows, fields) => {
+        if(err) {
+            console.log("Failed to query for users: " + err);
+            res.sendStatus(500);
+            res.send("Failed to get data");
+            return
+        }
+       var recipes = { recipes: rows}
+       res.status(200).json(recipes);
+    }); 
+});
+
+//get all recipes
+router.get('/lastviewed', (req, res, next) => {
+    const qryStr = "select id, meal, category, image, review from meal where id <= 3"
+    connection.query(qryStr, (err, rows, fields) => {
+        if(err) {
+            console.log("Failed to query for users: " + err);
+            res.sendStatus(500);
+            res.send("Failed to get data");
+            return
+        }
+       var recipes = { recipes: rows}
+       res.status(200).json(recipes);
+    }); 
+});
+
+//get all recipes
+router.get('/new', (req, res, next) => {
+    const qryStr = "select * from meal order by id desc limit 50"
+    connection.query(qryStr, (err, rows, fields) => {
+        if(err) {
+            console.log("Failed to query for users: " + err);
+            res.sendStatus(500);
+            res.send("Failed to get data");
+            return
+        }
        var recipes = { recipes: rows}
        res.status(200).json(recipes);
     }); 
@@ -47,7 +85,8 @@ router.get("/id/:id", (req, res) => {
     const mealId = req.params.id;
     const qryStr = "select * from meal where id = ?"
     connection.query(qryStr, [mealId], (err, rows, fields) => {
-        res.status(200).json(rows);
+        var recipes = { recipes: rows}
+       res.status(200).json(recipes);
     });
 });
 
@@ -113,16 +152,19 @@ router.get("/category/:category", (req, res) => {
     const category = req.params.category;
     const qryStr = "select * from meal where category = ?"
     connection.query(qryStr, [category], (err, rows, fields) => {
-        res.status(200).json(rows);
+        var recipes = { recipes: rows}
+       res.status(200).json(recipes);
     });
 });
 
 //get recipes by meal
-router.get("/meal/:meal", (req, res) => {
+router.get("/found/:meal", (req, res) => {
     const meal = req.params.meal;
     const qryStr = "select * from meal where meal like '%"+ meal +"%'"
     connection.query(qryStr, (err, rows, fields) => {
-        res.status(200).json(rows);
+        
+       var recipes = { recipes: rows}
+       res.status(200).json(recipes);
     });
 });
 
@@ -131,15 +173,29 @@ router.get("/ing/:ingredients", (req, res) => {
     const ing = req.params.ingredients;
     const qryStr = "select * from meal where ingredients like '%"+ ing +"%'"
     connection.query(qryStr, (err, rows, fields) => {
-        res.status(200).json(rows);
+        var recipes = { recipes: rows}
+       res.status(200).json(recipes);
     });
 });
 
+/*
+var message = {
+    message:"Invalid username or password",
+    userData:{
+        idUser: JSON.stringify(rows.map((x) => x.id)).replace('[', '').replace(']',''),
+        username: JSON.stringify(rows.map((x) => x.username)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+        pass: JSON.stringify(rows.map((x) => x.password)).replace('[', '').replace(']','').replace('\"','').replace('\"',''),
+        email: JSON.stringify(rows.map((x) => x.email)).replace('[', '').replace(']','').replace('\"','').replace('\"','')
+    }
+}
+*/
+
 //get all categories
 router.get("/cat", (req, res) => {
-    const qryStr = "select category from meal group by category asc"
+    const qryStr = "select category from meal group by category order by category asc"
     connection.query(qryStr, (err, rows, fields) => {
-        res.status(200).json(rows);
+        var cat = { categories: rows}
+       res.status(200).json(cat);
     });
 });
 
