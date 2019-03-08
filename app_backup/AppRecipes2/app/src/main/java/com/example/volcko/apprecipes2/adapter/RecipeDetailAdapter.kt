@@ -47,7 +47,7 @@ class RecipeDetailAdapter(
             holder.itemView.btnInstructions_recipe_detail.setOnClickListener {
                 holder.itemView.btnInstructions_recipe_detail.setBackgroundColor(Color.parseColor("#ac3e25"))
                 holder.itemView.btnIngredients_recipe_detail.setBackgroundColor(Color.parseColor("#8B8383"))
-                holder.itemView.listIngredients.visibility = View.INVISIBLE
+                holder.itemView.imgIngredients.visibility = View.INVISIBLE
                 holder.itemView.txtInstructions.visibility = View.VISIBLE
                 holder.itemView.txtInstructions.text = recipe.instructions
             }
@@ -56,7 +56,7 @@ class RecipeDetailAdapter(
             holder.itemView.btnIngredients_recipe_detail.setBackgroundColor(Color.parseColor("#ac3e25"))
             holder.itemView.btnInstructions_recipe_detail.setBackgroundColor(Color.parseColor("#8B8383"))
             holder.itemView.txtInstructions.visibility = View.INVISIBLE
-            holder.itemView.listIngredients.visibility = View.VISIBLE
+            holder.itemView.imgIngredients.visibility = View.VISIBLE
         }
 
 

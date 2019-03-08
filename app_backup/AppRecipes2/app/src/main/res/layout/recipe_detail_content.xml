@@ -55,6 +55,24 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white">
 
+            <ImageView
+                    android:id="@+id/imgIngredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/ingretients"
+                    android:layout_marginTop="2dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:shadowColor="#000000"
+                    android:shadowRadius="5"
+                    android:shadowDy="5"
+                    android:shadowDx="5"/>
+            <!--
             <ListView
                     android:id="@+id/listIngredients"
                     android:layout_width="match_parent"
@@ -62,6 +80,7 @@
                     android:background="@android:color/transparent"
                     android:layout_marginTop="8dp"
                     />
+                    -->
 
             <TextView
                     android:id="@+id/txtInstructions"

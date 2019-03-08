@@ -135,6 +135,7 @@
                     android:shadowDy="5"
                     android:shadowDx="5"/>
 
+
             <TextView
                     android:id="@+id/recipe_detail_num_review"
                     android:layout_width="wrap_content"
