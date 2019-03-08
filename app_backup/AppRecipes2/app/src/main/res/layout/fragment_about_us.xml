@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/aboutUsTop"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@android:color/transparent"/>
+
+        <LinearLayout
+                android:id="@+id/aboutUsContent"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteY="8dp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:ignore="MissingConstraints"
+                android:background="@drawable/aboutus_bg">
+
+            <TextView
+                    android:id="@+id/txtAboutUsMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="About Us"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:layout_marginTop="60dp"
+                    android:textColor="@color/nav_font"
+                    android:fontFamily="@font/opensans_bold"
+            />
+
+            <TextView
+                    android:id="@+id/txtAboutUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/terms_and_conditions"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="@color/nav_font"
+                    android:padding="20dp"
+                    android:fontFamily="@font/opensans_semibolditalic"
+                    android:layout_marginBottom="210dp"
+            />
+
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/aboutUsButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom"
+                android:layout_alignBottom="@+id/aboutUsContent">
+            <Button
+                    android:id="@+id/btnTerms"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:text="About Us"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_margin="0dp"
+                    android:background="#A63F27"
+                    android:textColor="@color/nav_font"
+                    android:fontFamily="@font/opensans_bold"/>
+
+            <Button
+                    android:id="@+id/btnPrivacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:text="Terms of Use"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_margin="0dp"
+                    android:background="#C1472B"
+                    android:textColor="@color/nav_font"
+                    android:fontFamily="@font/opensans_bold"/>
+
+            <Button
+                    android:id="@+id/btnContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:text="Privacy Notice"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_margin="0dp"
+                    android:background="#D14F31"
+                    android:textColor="@color/nav_font"
+                    android:fontFamily="@font/opensans_bold"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</ScrollView>

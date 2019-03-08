@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:ignore="MissingConstraints"
+            android:background="#d2e4d2">
+
+    <TextView
+            android:id="@+id/xx"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/black"/>
+
+    <TextView
+            android:id="@+id/no_matches"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="no matches."
+            android:fontFamily="@font/opensans_italic"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="0dp"
+            android:layout_below="@+id/xx"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_below="@+id/xx"/>
+
+
+</RelativeLayout>
+</ScrollView>

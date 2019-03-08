@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- main layout -->
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".activities.Log_activity"
+        android:orientation="vertical">
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_holder"
+            android:layout_alignParentTop="true">
+    </FrameLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/top_background_2"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:id="@+id/content_main">
+
+        <!-- view of logo -->
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="249dp"
+                app:srcCompat="@drawable/logo"
+                android:id="@+id/entry_logo"/>
+        <!-- view of logo -->
+
+        <!-- search layout -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_alignBottom="@id/entry_logo"
+                android:id="@+id/layout_search"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/entry_logo"
+                android:layout_marginBottom="-55dp">
+
+            <EditText
+                    android:layout_width="190dp"
+                    android:layout_height="42dp"
+                    android:inputType="textPersonName"
+                    android:background="@drawable/main_search_txt_bg"
+                    android:id="@+id/txtMainSearch"
+                    android:hint="name of recipe"
+                    android:textSize="14sp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_below="@+id/layout_search"
+                    android:fontFamily="@font/opensans_italic"/>
+
+            <Button
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:drawableTop="@drawable/ic_search_btn"
+                    android:background="@android:color/transparent"
+                    android:layout_marginLeft="6dp"
+                    android:id="@+id/btnMainSearch"/>
+
+        </LinearLayout>
+        <!-- search layout -->
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="70dp"
+        >
+
+            <!-- button by recipes -->
+            <Button
+                    android:layout_width="115dp"
+                    android:layout_height="42dp"
+                    android:id="@+id/btnByRecipes"
+                    android:background="@drawable/btn_bg"
+                    android:text="by recipes"
+                    android:textColor="@color/nav_font"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/opensans_bold"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/layout_search"/>
+            <!-- button by recipes -->
+
+            <!-- button by ingredients -->
+            <Button
+                    android:layout_width="115dp"
+                    android:layout_height="42dp"
+                    android:id="@+id/btnByIngredients"
+                    android:background="@drawable/no_active_btn_bg"
+                    android:text="by ingredients"
+                    android:textColor="@color/nav_font"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/opensans_bold"
+                    android:layout_below="@+id/layout_search"
+                    android:layout_marginLeft="10dp"/>
+
+            <!-- button by ingredients -->
+
+        </LinearLayout>
+
+
+        <!-- motto -->
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                app:srcCompat="@drawable/motto"
+                android:id="@+id/imageView5"
+                android:layout_marginTop="40dp"
+                android:layout_below="@+id/btnRegister"/>
+        <!-- motto -->
+
+    </LinearLayout>
+
+</RelativeLayout>
+        <!-- main layout -->
