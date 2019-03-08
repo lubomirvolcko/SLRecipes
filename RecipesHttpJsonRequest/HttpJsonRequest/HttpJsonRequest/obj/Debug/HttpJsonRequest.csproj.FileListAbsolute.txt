@@ -1,0 +1,13 @@
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\HttpJsonRequest.exe.config
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\HttpJsonRequest.exe
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\HttpJsonRequest.pdb
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\Newtonsoft.Json.dll
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\Newtonsoft.Json.xml
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\obj\Debug\HttpJsonRequest.csprojAssemblyReference.cache
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\obj\Debug\HttpJsonRequest.csproj.CoreCompileInputs.cache
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\obj\Debug\HttpJsonRequest.csproj.CopyComplete
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\obj\Debug\HttpJsonRequest.exe
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\obj\Debug\HttpJsonRequest.pdb
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\MySql.Data.dll
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\Google.Protobuf.dll
+D:\recepty_project\RecipesHttpJsonRequest\HttpJsonRequest\HttpJsonRequest\bin\Debug\MySql.Data.xml
