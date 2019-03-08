@@ -16,19 +16,19 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.example.volcko.apprecipes2.*
+import com.example.volcko.apprecipes2.R.id.txtToolbarSearch
 import com.example.volcko.fragmenty.*
-import com.example.volcko.testhttpcon.AsyncUserLogin
-import com.example.volcko.testhttpcon.AsyncUserRegistration
 import kotlinx.android.synthetic.main.activity_log_activity.*
 import kotlinx.android.synthetic.main.app_bar_log_activity.*
+import kotlinx.android.synthetic.main.app_bar_no_log_activity.*
 
 class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var context: Context
     var manager = supportFragmentManager
-    val PREFS_NAME: String = "SL_recipe_data"
+    var homepage = true //check if current fragment is homeFragment
 
-    lateinit var tagFragmnet: String
+    var tagFragmnet: String = "FragmentNoLog"
 
     var dialog : ProgressDialog? = null
 
@@ -64,7 +64,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_no_log_activity)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbarNoLog)
         setContext(this)
         dialog = ProgressDialog(this)
 
@@ -91,13 +91,13 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val btnSearchMain = findViewById<Button>(R.id.btnMainSearch) //btn search in entry page
         val searchBar = findViewById<View>(R.id.search_bar) // view search and filter
         val txtMainSearch = findViewById<EditText>(R.id.txtMainSearch) // edit text Search in entry page
-        val txtToolbarSearch = findViewById<EditText>(R.id.txtToolbarSearch) // edit text Search in toolbar
-        val txtToolbarMenu = findViewById<TextView>(R.id.txtToolbarMenu) // text view in toolbar for fragment name
+        val txtToolbarSearch = findViewById<EditText>(R.id.txtToolbarSearchNoLog) // edit text Search in toolbar
+        val txtToolbarMenu = findViewById<TextView>(R.id.txtToolbarMenuNolog) // text view in toolbar for fragment name
         val mainContent = findViewById<View>(R.id.content_main) //view content_main
         val menuLogo = findViewById<ImageView>(R.id.menu_logo) //image view logo in menu
 
         val btnNavSearch = findViewById<Button>(R.id.btnNavSearch) //btn search in nav bar
-        val btnNavFilter = findViewById<Button>(R.id.btnNavFilter) //btn filter in nav bar
+        val btnNavFilter = findViewById<Button>(R.id.btnNavFilterNoLog) //btn filter in nav bar
         btnNavFilter.visibility = View.INVISIBLE
         btnNavSearch.visibility = View.INVISIBLE
         txtToolbarMenu.visibility = View.INVISIBLE
@@ -105,9 +105,6 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
         btnNavFilter.isClickable = false
-
-
-
 
         // set visibility of view
         fun showHideView(view: View) {
@@ -121,6 +118,19 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         showFragmentNoLog()
         showHideView(searchBar) //set visibility view searchBar
+
+        // action on logo in menu
+        menuLogo.setOnClickListener {
+            searchBar.visibility = View.INVISIBLE
+            toolbarNoLog.setBackgroundColor(Color.parseColor("#00000000")) //set background color to dark
+            drawer_layout.closeDrawer(GravityCompat.START)
+
+            /*
+            val curFrag = supportFragmentManager.findFragmentByTag(tagFragmnet)
+            val frag = manager.findFragmentByTag("FragmentNoLog")
+            */
+            showFragmentNoLog()
+        }
 
         /*
         // set visibility of buttons
@@ -172,7 +182,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         //toggle navigation menu
         val toggle = object: ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
+            this, drawer_layout, toolbarNoLog,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         ){
@@ -207,8 +217,12 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onBackPressed() {
-
-        val currentFragment = supportFragmentManager.findFragmentByTag(tagFragmnet)
+        /*
+        if(homepage) {
+            toolbarNoLog
+        }
+        */
+        //val currentFragment = supportFragmentManager.findFragmentByTag(tagFragmnet)
 
         if (drawer_layout.isDrawerOpen(GravityCompat.START))
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -241,18 +255,18 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             // set action on click item Top Rated in menu
             R.id.nav_topRated -> {
                 showFragmentTopRated() //set fragment top rated to visible
-                setNavBarSearch(toolbar)
-                setSearchedTextToNull()
-                btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
-                btnNavFilter.isClickable = false
-                txtToolbarSearch.visibility = View.INVISIBLE
+                setNavBarSearch(toolbarNoLog)
+                //setSearchedTextToNull()
+                btnNavFilterNoLog.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
+                btnNavFilterNoLog.isClickable = false
+                //txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
                 txtToolbarMenu.text = "Top Rated"
             }
             // set action on click item Newest in menu
             R.id.nav_newest -> {
                 showFragmentNewest() //set fragment newest to visible
-                setNavBarSearch(toolbar)
+                setNavBarSearch(toolbarNoLog)
                 setSearchedTextToNull()
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
@@ -263,7 +277,7 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             // set action on click item Categories in menu
             R.id.nav_categories -> {
                 showFragmentCategories() //set fragment categories to visible
-                setNavBarSearch(toolbar)
+                setNavBarSearch(toolbarNoLog)
                 setSearchedTextToNull()
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
@@ -273,8 +287,8 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }
             // set action on click item ABout Us in menu
             R.id.nav_aboutUs -> {
-                showFragmentAbutUs() //set fragment about us to visible
-                setNavBarSearch(toolbar)
+                showFragmentAboutUs() //set fragment about us to visible
+                setNavBarSearch(toolbarNoLog)
                 setSearchedTextToNull()
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
@@ -292,8 +306,9 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun showFragmentNoLog() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentNoLog()
-        tagFragmnet = "FragmentSearch"
+        tagFragmnet = "FragmentNoLog"
         //fragment.setFav(false)
+        homepage = true
         transaction.replace(R.id.fragment_holder, fragment, tagFragmnet)
         transaction.addToBackStack(null)
         transaction.commit()
@@ -305,8 +320,9 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun showFragmentTopRated() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentTopRated()
-        tagFragmnet = "FragmentSearch"
+        tagFragmnet = "FragmentTopRated"
         //fragment.setFav(false)
+        homepage = false
         transaction.replace(R.id.fragment_holder, fragment, tagFragmnet)
         transaction.addToBackStack(null)
         transaction.commit()
@@ -316,8 +332,10 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun showFragmentNewest() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentNewest()
+        tagFragmnet = "FragmentNewest"
         fragment.setFav(false)
-        transaction.replace(R.id.fragment_holder, fragment)
+        homepage = false
+        transaction.replace(R.id.fragment_holder, fragment, tagFragmnet)
         transaction.addToBackStack(null)
         transaction.commit()
     }
@@ -326,16 +344,20 @@ class NoLog_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun showFragmentCategories() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentCategories()
-        transaction.replace(R.id.fragment_holder, fragment)
+        tagFragmnet = "FragmentCategories"
+        homepage = false
+        transaction.replace(R.id.fragment_holder, fragment, tagFragmnet)
         transaction.addToBackStack(null)
         transaction.commit()
     }
 
     //show fragment about us
-    fun showFragmentAbutUs() {
+    fun showFragmentAboutUs() {
         val transaction = manager.beginTransaction()
         val fragment = fragmentAboutUs()
-        transaction.replace(R.id.fragment_holder, fragment)
+        tagFragmnet = "FragmentAboutUs"
+        homepage = false
+        transaction.replace(R.id.fragment_holder, fragment, tagFragmnet)
         transaction.addToBackStack(null)
         transaction.commit()
     }

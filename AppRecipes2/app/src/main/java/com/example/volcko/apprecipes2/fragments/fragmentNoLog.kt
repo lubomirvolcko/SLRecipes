@@ -335,15 +335,7 @@ class fragmentNoLog: Fragment(){
         */
 
         /*
-        // action on logo in menu
-        menuLogo.setOnClickListener {
-            if (mainContent.visibility == View.INVISIBLE)
-                mainContent.visibility = View.VISIBLE
 
-            searchBar.visibility = View.INVISIBLE
-            toolbar.setBackgroundColor(Color.parseColor("#00000000")) //set background color to dark
-            NoLog_activity().onBackPressed()
-        }
         */
         return view
 

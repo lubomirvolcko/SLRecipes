@@ -76,7 +76,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_activity)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(toolbarLog)
 
         txtToolbarMenu.visibility = View.INVISIBLE
 
@@ -187,7 +187,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //toggle navigation menu
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
+            this, drawer_layout, toolbarLog,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
 
@@ -212,7 +212,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                     btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter, 0, 0)
                     btnNavFilter.isClickable = true
-                    setNavBarSearch(toolbar) //set toolbar
+                    setNavBarSearch(toolbarLog) //set toolbar
                     showHideView(mainContent) //set main content to invisible
                     showFragmentSearch() // set fragment search to visible
                     closeKeyboard(btnSearchMain) // close keyboard
@@ -259,7 +259,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             fragment_holder.visibility = View.INVISIBLE
             //fragment_holder.layoutParams.height = 0
             searchBar.visibility = View.INVISIBLE
-            toolbar.setBackgroundColor(Color.parseColor("#00000000")) //set background color to dark
+            toolbarLog.setBackgroundColor(Color.parseColor("#00000000")) //set background color to dark
             onBackPressed()
         }
     } //bundle end
@@ -318,7 +318,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
                 showFragmentProfile() //set fragment profile to visible
-                setNavBarSearch(toolbar)
+                setNavBarSearch(toolbarLog)
                 setSearchedTextToNull()
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
@@ -333,7 +333,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
                 showFragmentFavorites() //set fragment favorites to visible
-                setNavBarSearch(toolbar)
+                setNavBarSearch(toolbarLog)
                 setSearchedTextToNull()
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
@@ -348,7 +348,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
                 showFragmentTopRated() //set fragment top rated to visible
-                setNavBarSearch(toolbar)
+                setNavBarSearch(toolbarLog)
                 setSearchedTextToNull()
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
@@ -369,7 +369,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
                 showFragmentNewest() //set fragment newest to visible
-                setNavBarSearch(toolbar)
+                setNavBarSearch(toolbarLog)
                 setSearchedTextToNull()
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
@@ -386,7 +386,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                     btnNavFilter.isClickable = false
                     showFragmentCategories() //set fragment categories to visible
-                    setNavBarSearch(toolbar)
+                    setNavBarSearch(toolbarLog)
                     setSearchedTextToNull()
                     txtToolbarSearch.visibility = View.INVISIBLE
                     //txtToolbarSearch.getLayoutParams().width = 0
@@ -404,7 +404,7 @@ class Log_activity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 btnNavFilter.setCompoundDrawablesWithIntrinsicBounds( 0, R.drawable.ic_filter_disable, 0, 0)
                 btnNavFilter.isClickable = false
                 showFragmentAbutUs() //set fragment about us to visible
-                setNavBarSearch(toolbar)
+                setNavBarSearch(toolbarLog)
                 setSearchedTextToNull()
                 txtToolbarSearch.visibility = View.INVISIBLE
                 txtToolbarMenu.visibility = View.VISIBLE
